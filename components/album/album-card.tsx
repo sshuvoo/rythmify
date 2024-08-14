@@ -1,18 +1,16 @@
 "use client";
 
-import { IconBookmark, IconHeart, IconShare } from "@tabler/icons-react";
 import {
-   Card,
-   Image,
-   Text,
    ActionIcon,
-   Badge,
-   Group,
+   Card,
    Center,
-   Avatar,
-   useMantineTheme,
+   Group,
+   Image,
    rem,
+   Text,
+   useMantineTheme,
 } from "@mantine/core";
+import { IconBookmark, IconHeart, IconShare } from "@tabler/icons-react";
 import classes from "./album-card.module.css";
 
 export function AlbumCard({ album }: { album: any }) {
@@ -27,7 +25,7 @@ export function AlbumCard({ album }: { album: any }) {
       <Card withBorder radius="md" className={classes.card}>
          <Card.Section>
             <a {...linkProps}>
-               <Image src={album.images[0].url} alt="" h={120} />
+               <Image src={album.images[0].url} alt="" h={140} />
             </a>
          </Card.Section>
 
