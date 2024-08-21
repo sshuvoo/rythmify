@@ -3,7 +3,7 @@
 import { Carousel } from "@mantine/carousel";
 import { RelatedArtistCard } from "./related-artist-card";
 
-export default function RelatedArtistCarousel({ artists }: { artists: any[] }) {
+export default function ArtistCarousel({ artists }: { artists: any[] }) {
    return (
       <Carousel
          slideGap="md"

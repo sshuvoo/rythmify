@@ -1,7 +1,7 @@
 'use client'
 
 import { getTrack } from '@/actions/get-track'
-import { playSingleTrack } from '@/actions/play-track'
+import { useController } from '@/hooks/use-controller'
 import {
    IconPlayerPauseFilled,
    IconPlayerPlayFilled,
@@ -9,29 +9,17 @@ import {
 import { useRef, useState } from 'react'
 
 export default function TrackPlayButton({ id }: { id: string }) {
-   const trackRef = useRef<HTMLAudioElement>()
    const [isPlaying, setIsPlaying] = useState(false)
-
+   const controller = useController()
+   console.log(controller)
    const handlePlay = async () => {
-      if (trackRef.current) {
-         trackRef.current.play()
-      } else {
-         const track = await getTrack(id)
-         trackRef.current = new Audio(track.preview_url)
-         trackRef.current.play()
-      }
-      setIsPlaying(true)
+      controller?.setCurrrentTrack(id)
    }
 
-   const handlePause = async () => {
-      if (trackRef.current) {
-         trackRef.current.pause()
-         setIsPlaying(false)
-      }
-   }
+   const handlePause = async () => {}
 
    return (
-      <div className="px-4">
+      <div>
          {isPlaying ? (
             <button
                onClick={handlePause}

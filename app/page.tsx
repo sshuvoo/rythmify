@@ -1,13 +1,13 @@
-import { getArtists } from "@/actions/get-artists";
-import { ArtistCard } from "@/components/artist/artist-card";
-import { Text } from "@mantine/core";
+import { getArtists } from '@/actions/get-artists'
+import { ArtistCard } from '@/components/artist/artist-card'
+import { Text } from '@mantine/core'
 
 export default async function Home() {
-   const bangla = await getArtists("bangla2024");
-   const hindi = await getArtists("hindi2024");
+   const bangla = await getArtists('bangla2024')
+   const hindi = await getArtists('hindi2024')
 
    return (
-      <div>
+      <div className="overflow-y-auto max-h-[calc(100vh-32px)]">
          <div className="px-4">
             <Text className="line-clamp-1" ta="left" fz="h2" fw={500} mt="md">
                Bangla
@@ -18,8 +18,8 @@ export default async function Home() {
                      <ArtistCard
                         key={artist.id}
                         name={artist.name}
-                        image={artist.images[0]?.url || ""}
-                        genres={artist.genres.join(" . ")}
+                        image={artist.images[0]?.url || ''}
+                        genres={artist.genres.join(' . ')}
                         artist_id={artist.id}
                      />
                   ))}
@@ -35,13 +35,13 @@ export default async function Home() {
                      <ArtistCard
                         key={artist.id}
                         name={artist.name}
-                        image={artist.images[0]?.url || ""}
-                        genres={artist.genres.join(" . ")}
+                        image={artist.images[0]?.url || ''}
+                        genres={artist.genres.join(' . ')}
                         artist_id={artist.id}
                      />
                   ))}
             </div>
          </div>
       </div>
-   );
+   )
 }

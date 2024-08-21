@@ -6,12 +6,12 @@ export function RelatedArtistCard({ artist }: { artist: any }) {
       <Link href={`/artists/${artist.id}`}>
          <Paper radius="md" withBorder p="lg" bg="var(--mantine-color-body)">
             <Avatar
-               src={artist.images[0].url}
+               src={artist?.images[0]?.url}
                size={120}
                radius={120}
                mx="auto"
             />
-            <Text ta="center" fz="lg" fw={500} mt="md">
+            <Text lineClamp={1} ta="center" fz="lg" fw={500} mt="md">
                {artist.name}
             </Text>
             <Text ta="center" c="dimmed" fz="sm" lineClamp={1}>
