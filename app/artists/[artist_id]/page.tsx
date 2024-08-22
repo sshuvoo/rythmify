@@ -82,7 +82,10 @@ export default async function Artist({
                                  </h3>
                               </div>
                            </div>
-                           <TrackPlayButton id={track.id} />
+                           <TrackPlayButton
+                              playlist={tracks?.tracks}
+                              id={track.id}
+                           />
                         </div>
                      ))}
                </div>
@@ -122,7 +125,10 @@ export default async function Artist({
                                  </h3>
                               </div>
                            </div>
-                           <TrackPlayButton id={track.id} />
+                           <TrackPlayButton
+                              playlist={recomend?.tracks}
+                              id={track.id}
+                           />
                         </div>
                      ))}
                </div>

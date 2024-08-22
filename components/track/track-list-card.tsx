@@ -2,7 +2,13 @@ import { msToDuration } from '@/utils/ms-to-duration'
 import { Image } from '@mantine/core'
 import TrackPlayButton from '../button/track-play-button'
 
-export function TrackListCard({ track }: { track: any }) {
+export function TrackListCard({
+   track,
+   playlist,
+}: {
+   track: any
+   playlist: any[]
+}) {
    return (
       <tr className="hover:bg-gray-100 rounded-md">
          <td className="flex gap-4 py-2 px-4">
@@ -26,7 +32,7 @@ export function TrackListCard({ track }: { track: any }) {
             <h3 className="text-sm">{msToDuration(track.duration_ms)}</h3>
          </td>
          <td>
-            <TrackPlayButton id={track.id} />
+            <TrackPlayButton playlist={playlist} id={track.id} />
          </td>
       </tr>
    )

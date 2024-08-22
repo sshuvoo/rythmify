@@ -8,12 +8,18 @@ import {
 } from '@tabler/icons-react'
 import { useRef, useState } from 'react'
 
-export default function TrackPlayButton({ id }: { id: string }) {
+export default function TrackPlayButton({
+   id,
+   playlist,
+}: {
+   id: string
+   playlist: any[]
+}) {
    const [isPlaying, setIsPlaying] = useState(false)
    const controller = useController()
-   console.log(controller)
+
    const handlePlay = async () => {
-      controller?.setCurrrentTrack(id)
+      controller?.setCurrrentTrack(id, playlist)
    }
 
    const handlePause = async () => {}

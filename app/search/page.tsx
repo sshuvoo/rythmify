@@ -7,7 +7,7 @@ import Console from '@/components/console'
 import CategoryCard from '@/components/search/category-card'
 import SearchForm from '@/components/search/search-form'
 import { TrackListCard } from '@/components/track/track-list-card'
-import { Badge } from '@mantine/core'
+import { Badge, Chip } from '@mantine/core'
 
 const searchFilters = [
    { title: 'All', value: 'all' },
@@ -45,9 +45,9 @@ export default async function SearchPage({
             <SearchForm />
             <div className="flex mt-4 gap-2 flex-wrap">
                {searchFilters.map((item) => (
-                  <Badge key={item.value} color="teal" size="lg">
+                  <Chip key={item.value} color="teal" size="sm">
                      {item.title}
-                  </Badge>
+                  </Chip>
                ))}
             </div>
          </div>
@@ -59,7 +59,11 @@ export default async function SearchPage({
                <table className="w-full">
                   <tbody>
                      {result?.tracks?.items?.map((track: any) => (
-                        <TrackListCard key={track.id} track={track} />
+                        <TrackListCard
+                           key={track.id}
+                           track={track}
+                           playlist={result?.tracks?.items}
+                        />
                      ))}
                   </tbody>
                </table>
