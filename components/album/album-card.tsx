@@ -1,4 +1,4 @@
-"use client";
+'use client'
 
 import {
    ActionIcon,
@@ -9,24 +9,20 @@ import {
    rem,
    Text,
    useMantineTheme,
-} from "@mantine/core";
-import { IconBookmark, IconHeart, IconShare } from "@tabler/icons-react";
-import classes from "./album-card.module.css";
+} from '@mantine/core'
+import { IconBookmark, IconHeart, IconShare } from '@tabler/icons-react'
+import classes from './album-card.module.css'
+import Link from 'next/link'
 
 export function AlbumCard({ album }: { album: any }) {
-   const linkProps = {
-      href: "https://mantine.dev",
-      target: "_blank",
-      rel: "noopener noreferrer",
-   };
-   const theme = useMantineTheme();
+   const theme = useMantineTheme()
 
    return (
       <Card withBorder radius="md" className={classes.card}>
          <Card.Section>
-            <a {...linkProps}>
+            <Link href={`/albums/${album.id}`}>
                <Image src={album.images[0].url} alt="" h={140} />
-            </a>
+            </Link>
          </Card.Section>
 
          <h2 className={`line-clamp-1 mt-3`}>{album.name}</h2>
@@ -64,5 +60,5 @@ export function AlbumCard({ album }: { album: any }) {
             </Group>
          </Group>
       </Card>
-   );
+   )
 }

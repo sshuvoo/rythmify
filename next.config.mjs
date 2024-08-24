@@ -10,6 +10,10 @@ const nextConfig = {
             protocol: 'https',
             hostname: 'charts-images.scdn.co',
          },
+         {
+            protocol: 'https',
+            hostname: 'i.scdn.co',
+         },
       ],
    },
 }

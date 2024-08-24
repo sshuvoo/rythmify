@@ -1,10 +1,11 @@
 import { getArtists } from '@/actions/get-artists'
+import { getPopularArtists } from '@/actions/get-popular-artists'
 import { ArtistCard } from '@/components/artist/artist-card'
 import { Text } from '@mantine/core'
 
 export default async function Home() {
-   const bangla = await getArtists('bangla2024')
-   const hindi = await getArtists('hindi2024')
+   const bangla = await getPopularArtists('bangla2024')
+   const hindi = await getPopularArtists('hindi2024')
 
    return (
       <div className="overflow-y-auto max-h-[calc(100vh-32px)]">

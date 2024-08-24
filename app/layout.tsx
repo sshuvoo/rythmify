@@ -1,13 +1,13 @@
+import { Player } from '@/components/player'
+import Sidebar from '@/components/sidebar'
+import { PlayerProvider } from '@/provider/player-provider'
+import '@mantine/carousel/styles.css'
+import { ColorSchemeScript, MantineProvider } from '@mantine/core'
+import '@mantine/core/styles.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
+import { Toaster } from 'react-hot-toast'
 import './globals.css'
-import '@mantine/core/styles.css'
-import '@mantine/carousel/styles.css'
-
-import { ColorSchemeScript, MantineProvider } from '@mantine/core'
-import Sidebar from '@/components/sidebar'
-import { Player } from '@/components/player'
-import { PlayerProvider } from '@/provider/player-provider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -36,6 +36,7 @@ export default function RootLayout({ children }: Readonly<Children>) {
                   <Player />
                </PlayerProvider>
             </MantineProvider>
+            <Toaster />
          </body>
       </html>
    )

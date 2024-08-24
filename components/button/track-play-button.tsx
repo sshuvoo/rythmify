@@ -1,44 +1,45 @@
 'use client'
 
-import { getTrack } from '@/actions/get-track'
 import { useController } from '@/hooks/use-controller'
 import {
    IconPlayerPauseFilled,
    IconPlayerPlayFilled,
 } from '@tabler/icons-react'
-import { useRef, useState } from 'react'
 
 export default function TrackPlayButton({
-   id,
+   track_id,
    playlist,
 }: {
-   id: string
+   track_id: string
    playlist: any[]
 }) {
-   const [isPlaying, setIsPlaying] = useState(false)
    const controller = useController()
 
    const handlePlay = async () => {
-      controller?.setCurrrentTrack(id, playlist)
+      if (controller?.playerState?.playId === track_id) {
+         controller.handlePlay()
+      } else {
+         const playlistId = playlist.map((track) => track.id)
+         controller?.addToPlayer(playlistId, track_id)
+      }
    }
-
-   const handlePause = async () => {}
 
    return (
       <div>
-         {isPlaying ? (
+         {controller?.playerState.isPlaying &&
+         controller.playerState.playId === track_id ? (
             <button
-               onClick={handlePause}
-               className="w-10 h-10 flex justify-center items-center bg-green-500 rounded-full"
+               onClick={controller.handlePlay}
+               className="w-8 h-8 flex justify-center items-center bg-green-500 rounded-full"
             >
-               <IconPlayerPauseFilled className=" rounded-full text-white w-6 h-6" />
+               <IconPlayerPauseFilled className=" rounded-full text-white w-5 h-5" />
             </button>
          ) : (
             <button
                onClick={handlePlay}
-               className="w-10 h-10 flex justify-center items-center bg-green-500 rounded-full"
+               className="w-8 h-8 flex justify-center items-center bg-green-500 rounded-full"
             >
-               <IconPlayerPlayFilled className=" rounded-full text-white w-6 h-6" />
+               <IconPlayerPlayFilled className=" rounded-full text-white w-5 h-5" />
             </button>
          )}
       </div>

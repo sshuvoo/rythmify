@@ -7,6 +7,7 @@ import { getSingleArtist } from '@/actions/get-single-artist'
 import AlbumCarousel from '@/components/album/album-carousel'
 import ArtistCarousel from '@/components/artist/artist-carousel'
 import TrackPlayButton from '@/components/button/track-play-button'
+import { AudioPlayAnimation } from '@/components/track/audio-play-animation'
 import { msToDuration } from '@/utils/ms-to-duration'
 import { Avatar, Image } from '@mantine/core'
 import { IconRosetteDiscountCheckFilled } from '@tabler/icons-react'
@@ -24,10 +25,10 @@ export default async function Artist({
    const recomend = await getRecomendTracks(artist_id, artist.genres)
 
    return (
-      <div className="overflow-hidden overflow-y-auto max-h-[calc(100vh-32px)]">
+      <div className="overflow-hidden overflow-y-auto max-h-[calc(100vh-32px)] pb-32">
          <div
             style={{ backgroundColor: palette?.DarkMuted?.hex }}
-            className="h-[340px] rounded-md grid grid-cols-[auto,1fr] gap-x-8 p-10"
+            className="rounded-md grid grid-cols-[auto,1fr] gap-x-8 p-10"
          >
             <div className="flex justify-end flex-col">
                <Avatar src={artist?.images[0]?.url} size={200} />
@@ -56,7 +57,7 @@ export default async function Artist({
                      tracks.tracks.map((track: any) => (
                         <div
                            key={track.id}
-                           className="flex gap-4 justify-between items-center hover:bg-gray-100 p-2"
+                           className="flex gap-4 justify-between items-center hover:bg-gray-100 p-2 rounded-md"
                         >
                            <div className="flex gap-4">
                               <div>
@@ -82,10 +83,13 @@ export default async function Artist({
                                  </h3>
                               </div>
                            </div>
-                           <TrackPlayButton
-                              playlist={tracks?.tracks}
-                              id={track.id}
-                           />
+                           <div className="flex gap-4 items-center px-4">
+                              <AudioPlayAnimation track_id={track.id} />
+                              <TrackPlayButton
+                                 playlist={tracks?.tracks}
+                                 track_id={track.id}
+                              />
+                           </div>
                         </div>
                      ))}
                </div>
@@ -102,7 +106,7 @@ export default async function Artist({
                            className="flex gap-4 justify-between items-center hover:bg-gray-100 p-2"
                         >
                            <div className="flex gap-4">
-                              <div>
+                              <div className="w-[70px] h-[70px]">
                                  <Image
                                     radius="md"
                                     h={70}
@@ -125,10 +129,13 @@ export default async function Artist({
                                  </h3>
                               </div>
                            </div>
-                           <TrackPlayButton
-                              playlist={recomend?.tracks}
-                              id={track.id}
-                           />
+                           <div className="flex gap-4 items-center">
+                              <AudioPlayAnimation track_id={track.id} />
+                              <TrackPlayButton
+                                 playlist={recomend?.tracks}
+                                 track_id={track.id}
+                              />
+                           </div>
                         </div>
                      ))}
                </div>
