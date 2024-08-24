@@ -29,8 +29,9 @@ export default async function SearchPage({
                </div>
                <table className="w-full">
                   <tbody>
-                     {result?.tracks?.items?.map((track: any) => (
+                     {result?.tracks?.items?.map((track: any, i: number) => (
                         <TrackListCard
+                           index={i}
                            key={track.id}
                            track={track}
                            playlist={result?.tracks?.items}
