@@ -1,5 +1,3 @@
-import { Player } from '@/components/player'
-import Sidebar from '@/components/sidebar'
 import { PlayerProvider } from '@/provider/player-provider'
 import '@mantine/carousel/styles.css'
 import { ColorSchemeScript, MantineProvider } from '@mantine/core'
@@ -28,13 +26,7 @@ export default function RootLayout({ children }: Readonly<Children>) {
          </head>
          <body className={inter.className}>
             <MantineProvider>
-               <PlayerProvider>
-                  <div className="grid grid-cols-[auto,1fr] gap-4 p-4">
-                     <Sidebar />
-                     {children}
-                  </div>
-                  <Player />
-               </PlayerProvider>
+               <PlayerProvider>{children}</PlayerProvider>
             </MantineProvider>
             <Toaster />
          </body>

@@ -17,15 +17,16 @@ export default async function SearchPage({
    const categories = !result && (await getCategories(50))
 
    return (
-      <div className="border border-gray-200 px-4 rounded-md overflow-hidden overflow-y-auto max-h-[calc(100vh-32px)] pb-32">
-         <div className="sticky top-0 z-50 bg-white py-4 border-b">
-            <SearchForm />
-            <SearchFilter />
-         </div>
+      <div className="max-h-[calc(100vh-32px)] overflow-hidden overflow-y-auto rounded-md border border-gray-200 px-4 pb-32">
+         {result && (
+            <div className="sticky top-0 z-50 border-b bg-white pb-4">
+               <SearchFilter />
+            </div>
+         )}
          {result?.tracks?.items?.length > 0 && (
             <div>
                <div>
-                  <h2 className="text-2xl font-semibold my-8">Songs</h2>
+                  <h2 className="my-8 text-2xl font-semibold">Songs</h2>
                </div>
                <table className="w-full">
                   <tbody>
@@ -44,7 +45,7 @@ export default async function SearchPage({
          {result?.artists?.items?.length > 0 && (
             <div>
                <div>
-                  <h2 className="text-2xl font-semibold my-8">Artists</h2>
+                  <h2 className="my-8 text-2xl font-semibold">Artists</h2>
                </div>
                <ArtistCarousel artists={result.artists.items} />
             </div>
@@ -52,7 +53,7 @@ export default async function SearchPage({
          {result?.audiobooks?.items?.length > 0 && (
             <div>
                <div>
-                  <h2 className="text-2xl font-semibold my-8">Audiobooks</h2>
+                  <h2 className="my-8 text-2xl font-semibold">Audiobooks</h2>
                </div>
                <AudiobookCarousel audiobooks={result.audiobooks.items} />
             </div>
@@ -60,7 +61,7 @@ export default async function SearchPage({
          {result?.albums?.items?.length > 0 && (
             <div>
                <div>
-                  <h2 className="text-2xl font-semibold my-8">Albums</h2>
+                  <h2 className="my-8 text-2xl font-semibold">Albums</h2>
                </div>
                <AlbumCarousel albums={result.albums.items} />
             </div>
@@ -68,7 +69,7 @@ export default async function SearchPage({
          {categories?.categories?.items?.length > 0 && (
             <div>
                <div>
-                  <h2 className="text-2xl font-semibold my-8">Browse All</h2>
+                  <h2 className="my-8 text-2xl font-semibold">Browse All</h2>
                </div>
                <div className="grid grid-cols-4 gap-4">
                   {categories.categories.items.map((item: any) => (

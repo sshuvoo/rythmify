@@ -1,4 +1,3 @@
-import { getArtists } from '@/actions/get-artists'
 import { getPopularArtists } from '@/actions/get-popular-artists'
 import { ArtistCard } from '@/components/artist/artist-card'
 import { Text } from '@mantine/core'
@@ -8,7 +7,7 @@ export default async function Home() {
    const hindi = await getPopularArtists('hindi2024')
 
    return (
-      <div className="overflow-y-auto max-h-[calc(100vh-32px)]">
+      <div className="overflow-y-auto max-h-[calc(100vh-32px)] pb-32">
          <div className="px-4">
             <Text className="line-clamp-1" ta="left" fz="h2" fw={500} mt="md">
                Bangla

@@ -1,10 +1,6 @@
-import { getAlbum } from '@/actions/get-album'
-import { getArtists } from '@/actions/get-artists'
 import { getImageColor } from '@/actions/get-image-color'
 import { getPlaylist } from '@/actions/get-playlist'
-import AvatarGroup from '@/components/album/avatar-group'
 import PlayAll from '@/components/button/playall-button'
-import { Console } from '@/components/console'
 import { TrackListCard } from '@/components/track/track-list-card'
 import { Avatar } from '@mantine/core'
 
@@ -19,7 +15,6 @@ export default async function Playlist({
 
    return (
       <div className="overflow-hidden overflow-y-auto max-h-[calc(100vh-32px)] pb-32">
-         <Console data={playlist} />
          <div
             style={{ backgroundColor: palette?.DarkMuted?.hex }}
             className="rounded-md grid grid-cols-[auto,1fr] gap-x-8 p-10 relative"

@@ -20,7 +20,7 @@ import { Audio as AudioPlayAnimation } from 'react-loader-spinner'
 export function Player() {
    const controller = useController()
    return (
-      <div className="fixed bottom-0 rounded-md w-full max-w-3xl bg-[#f7f7f7cc] border-2 border-black/10 left-1/2 -translate-x-1/2 p-4 shadow z-[1000] backdrop-blur-sm">
+      <div className="fixed bottom-0 rounded-md w-full max-w-3xl bg-[#f7f7f7cc] border-2 border-black/10 left-1/2 -translate-x-1/2 p-4 shadow z-[1000] backdrop-blur-md">
          <div className="grid grid-cols-3 items-center py-2">
             <div className="px-4 flex items-end gap-2">
                <AudioPlayAnimation

@@ -1,6 +1,6 @@
 'use client'
 
-export function Console({data}: any) {
+export function Print({ data }: { data: any }) {
    console.log(data)
    return null
 }

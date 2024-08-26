@@ -4,13 +4,19 @@ import { getImageColor } from '@/actions/get-image-color'
 import { getRecomendTracks } from '@/actions/get-recomend-tracks'
 import { getReletedArtists } from '@/actions/get-related-artists'
 import { getSingleArtist } from '@/actions/get-single-artist'
+import { auth } from '@/auth'
 import AlbumCarousel from '@/components/album/album-carousel'
 import ArtistCarousel from '@/components/artist/artist-carousel'
 import TrackPlayButton from '@/components/button/track-play-button'
+import { Console } from '@/components/console'
 import { AudioPlayAnimation } from '@/components/track/audio-play-animation'
 import { msToDuration } from '@/utils/ms-to-duration'
 import { Avatar, Image } from '@mantine/core'
-import { IconRosetteDiscountCheckFilled } from '@tabler/icons-react'
+import {
+   IconChevronRight,
+   IconRosetteDiscountCheckFilled,
+} from '@tabler/icons-react'
+import Link from 'next/link'
 
 export default async function Artist({
    params: { artist_id },
@@ -21,9 +27,8 @@ export default async function Artist({
    const albums = await getArtistAlbums(artist_id)
    const tracks = await getArtistsTopTracks(artist_id)
    const relatedArtists = await getReletedArtists(artist_id)
-   const palette = await getImageColor(artist?.images[0]?.url)
    const recomend = await getRecomendTracks(artist_id, artist.genres)
-
+   const palette = await getImageColor(artist?.images[0]?.url)
    return (
       <div className="overflow-hidden overflow-y-auto max-h-[calc(100vh-32px)] pb-32">
          <div
@@ -49,9 +54,18 @@ export default async function Artist({
          </div>
          <div className="grid grid-cols-2 gap-8">
             <div>
-               <h2 className="text-2xl font-semibold my-8">
-                  Popular From {artist.name.split(' ').at(-1)}
-               </h2>
+               <div>
+                  <h2 className="text-2xl font-semibold my-8">
+                     Popular From {artist.name.split(' ').at(-1)}
+                  </h2>
+                  {/* <Link
+                     className="flex gap-1 items-center border px-2 py-1 text-sm"
+                     href={`/artists/${artist_id}/top-tracks`}
+                  >
+                     <span>See more</span>
+                     <IconChevronRight className="h-4 w-4" />
+                  </Link> */}
+               </div>
                <div className="space-y-4">
                   {tracks?.tracks?.length > 0 &&
                      tracks.tracks.map((track: any) => (
