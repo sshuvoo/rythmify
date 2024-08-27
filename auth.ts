@@ -14,7 +14,15 @@ declare module 'next-auth' {
 }
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-   providers: [Spotify],
+   providers: [
+      Spotify({
+         authorization: {
+            params: {
+               scope: 'user-top-read user-read-recently-played user-library-modify user-library-read user-read-email user-read-private',
+            },
+         },
+      }),
+   ],
    callbacks: {
       jwt: async ({ account, token, profile }) => {
          if (account && profile) {
@@ -36,6 +44,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                   'https://accounts.spotify.com/api/token',
                   {
                      method: 'POST',
+                     cache: 'no-store',
                      headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
                         Authorization:
@@ -58,7 +67,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                   ...token,
                   access_token: result.access_token,
                   refresh_token: result.refresh_token,
-                  expires_at: Date.now() + result.expires_in,
+                  expires_at: Date.now() + result.expires_in * 1000,
                }
             } catch (error) {
                return { ...token, error: 'RefreshAccessTokenError' }

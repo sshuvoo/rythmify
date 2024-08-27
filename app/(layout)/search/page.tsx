@@ -17,7 +17,7 @@ export default async function SearchPage({
    const categories = !result && (await getCategories(50))
 
    return (
-      <div className="max-h-[calc(100vh-32px)] overflow-hidden overflow-y-auto rounded-md border border-gray-200 px-4 pb-32">
+      <div className="max-h-[calc(100vh-106px)] overflow-hidden overflow-y-auto rounded-md border border-gray-200 px-4 pb-32">
          {result && (
             <div className="sticky top-0 z-50 border-b bg-white pb-4">
                <SearchFilter />

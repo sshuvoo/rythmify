@@ -4,12 +4,11 @@ import { Input } from '@mantine/core'
 import { useDebouncedCallback } from '@mantine/hooks'
 import { IconSearch } from '@tabler/icons-react'
 import { useRouter } from 'next/navigation'
-import { ChangeEvent, useEffect, useRef, useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 
 export default function SearchForm() {
    const [query, setQuery] = useState('')
    const router = useRouter()
-   const inputRef = useRef<HTMLInputElement | null>(null)
 
    const handleSearch = useDebouncedCallback((value: string) => {
       router.push(value ? `/search?q=${value}` : '/search')
@@ -20,16 +19,9 @@ export default function SearchForm() {
       handleSearch(e.target.value)
    }
 
-   useEffect(() => {
-      if (inputRef.current instanceof HTMLInputElement) {
-         inputRef.current.focus()
-      }
-   }, [])
-
    return (
       <form>
          <Input
-            ref={inputRef}
             value={query}
             onChange={handleChange}
             leftSection={<IconSearch size={20} />}

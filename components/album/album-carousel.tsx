@@ -3,7 +3,7 @@
 import { Carousel } from "@mantine/carousel";
 import { AlbumCard } from "./album-card";
 
-export default function AlbumCarousel({ albums }: { albums: any }) {
+export default function AlbumCarousel({ albums }: { albums: any[] }) {
    return (
       <Carousel
          slideGap="md"

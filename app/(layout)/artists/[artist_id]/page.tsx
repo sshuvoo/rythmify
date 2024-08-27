@@ -4,19 +4,13 @@ import { getImageColor } from '@/actions/get-image-color'
 import { getRecomendTracks } from '@/actions/get-recomend-tracks'
 import { getReletedArtists } from '@/actions/get-related-artists'
 import { getSingleArtist } from '@/actions/get-single-artist'
-import { auth } from '@/auth'
 import AlbumCarousel from '@/components/album/album-carousel'
 import ArtistCarousel from '@/components/artist/artist-carousel'
 import TrackPlayButton from '@/components/button/track-play-button'
-import { Console } from '@/components/console'
 import { AudioPlayAnimation } from '@/components/track/audio-play-animation'
 import { msToDuration } from '@/utils/ms-to-duration'
 import { Avatar, Image } from '@mantine/core'
-import {
-   IconChevronRight,
-   IconRosetteDiscountCheckFilled,
-} from '@tabler/icons-react'
-import Link from 'next/link'
+import { IconRosetteDiscountCheckFilled } from '@tabler/icons-react'
 
 export default async function Artist({
    params: { artist_id },
@@ -30,16 +24,16 @@ export default async function Artist({
    const recomend = await getRecomendTracks(artist_id, artist.genres)
    const palette = await getImageColor(artist?.images[0]?.url)
    return (
-      <div className="overflow-hidden overflow-y-auto max-h-[calc(100vh-32px)] pb-32">
+      <div className="max-h-[calc(100vh-106px)] overflow-hidden overflow-y-auto pb-32">
          <div
             style={{ backgroundColor: palette?.DarkMuted?.hex }}
-            className="rounded-md grid grid-cols-[auto,1fr] gap-x-8 p-10"
+            className="grid grid-cols-[auto,1fr] gap-x-8 rounded-md p-10"
          >
-            <div className="flex justify-end flex-col">
+            <div className="flex flex-col justify-end">
                <Avatar src={artist?.images[0]?.url} size={200} />
             </div>
             <div
-               className="flex justify-end flex-col"
+               className="flex flex-col justify-end"
                style={{
                   color: palette?.DarkMuted?.titleTextColor || '#ffffff',
                }}
@@ -48,14 +42,14 @@ export default async function Artist({
                   <IconRosetteDiscountCheckFilled className="text-[#1dcaff]" />
                   <p>Verified Artist</p>
                </div>
-               <h1 className="text-8xl font-extrabold my-2">{artist.name}</h1>
+               <h1 className="my-2 text-8xl font-extrabold">{artist.name}</h1>
                <h2>Followers: {artist.followers.total}</h2>
             </div>
          </div>
          <div className="grid grid-cols-2 gap-8">
             <div>
                <div>
-                  <h2 className="text-2xl font-semibold my-8">
+                  <h2 className="my-8 text-2xl font-semibold">
                      Popular From {artist.name.split(' ').at(-1)}
                   </h2>
                   {/* <Link
@@ -71,7 +65,7 @@ export default async function Artist({
                      tracks.tracks.map((track: any) => (
                         <div
                            key={track.id}
-                           className="flex gap-4 justify-between items-center hover:bg-gray-100 p-2 rounded-md"
+                           className="flex items-center justify-between gap-4 rounded-md p-2 hover:bg-gray-100"
                         >
                            <div className="flex gap-4">
                               <div>
@@ -87,7 +81,7 @@ export default async function Artist({
                                  <h3 className="text-xl font-medium">
                                     {track.name}
                                  </h3>
-                                 <h3 className="text-sm line-clamp-1">
+                                 <h3 className="line-clamp-1 text-sm">
                                     {track.artists
                                        .map((artist: any) => artist.name)
                                        .join(' x ')}
@@ -97,7 +91,7 @@ export default async function Artist({
                                  </h3>
                               </div>
                            </div>
-                           <div className="flex gap-4 items-center px-4">
+                           <div className="flex items-center gap-4 px-4">
                               <AudioPlayAnimation track_id={track.id} />
                               <TrackPlayButton
                                  playlist={tracks?.tracks}
@@ -109,7 +103,7 @@ export default async function Artist({
                </div>
             </div>
             <div>
-               <h2 className="text-2xl font-semibold my-8">
+               <h2 className="my-8 text-2xl font-semibold">
                   Recomended Tracks
                </h2>
                <div className="space-y-4">
@@ -117,10 +111,10 @@ export default async function Artist({
                      recomend.tracks.map((track: any) => (
                         <div
                            key={track.id}
-                           className="flex gap-4 justify-between items-center hover:bg-gray-100 p-2"
+                           className="flex items-center justify-between gap-4 p-2 hover:bg-gray-100"
                         >
                            <div className="flex gap-4">
-                              <div className="w-[70px] h-[70px]">
+                              <div className="h-[70px] w-[70px]">
                                  <Image
                                     radius="md"
                                     h={70}
@@ -133,7 +127,7 @@ export default async function Artist({
                                  <h3 className="text-xl font-medium">
                                     {track.name}
                                  </h3>
-                                 <h3 className="text-sm line-clamp-1">
+                                 <h3 className="line-clamp-1 text-sm">
                                     {track.artists
                                        .map((artist: any) => artist.name)
                                        .join(' x ')}
@@ -143,7 +137,7 @@ export default async function Artist({
                                  </h3>
                               </div>
                            </div>
-                           <div className="flex gap-4 items-center">
+                           <div className="flex items-center gap-4">
                               <AudioPlayAnimation track_id={track.id} />
                               <TrackPlayButton
                                  playlist={recomend?.tracks}
@@ -156,14 +150,16 @@ export default async function Artist({
             </div>
          </div>
          <div>
-            <h2 className="text-2xl font-medium my-8">Popular Albums</h2>
+            <h2 className="my-8 text-2xl font-medium">Popular Albums</h2>
             <div>
                <AlbumCarousel albums={albums.items} />
             </div>
          </div>
          <div>
-            <h2 className="text-2xl font-medium my-8">Fans Also Like</h2>
-            <ArtistCarousel artists={relatedArtists.artists} />
+            <h2 className="my-8 text-2xl font-medium">Fans Also Like</h2>
+            <div>
+               <ArtistCarousel artists={relatedArtists.artists} />
+            </div>
          </div>
       </div>
    )

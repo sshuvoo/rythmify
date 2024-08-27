@@ -1,45 +1,57 @@
-import { getPopularArtists } from '@/actions/get-popular-artists'
-import { ArtistCard } from '@/components/artist/artist-card'
-import { Text } from '@mantine/core'
+import { getNewReleases } from '@/actions/get-new-releases'
+import { getReletedArtists } from '@/actions/get-related-artists'
+import { getSingleArtist } from '@/actions/get-single-artist'
+import { getTopItems } from '@/actions/get-top-items'
+import { auth } from '@/auth'
+import AlbumCarousel from '@/components/album/album-carousel'
+import ArtistCarousel from '@/components/artist/artist-carousel'
+import { Console } from '@/components/console'
 
 export default async function Home() {
-   const bangla = await getPopularArtists('bangla2024')
-   const hindi = await getPopularArtists('hindi2024')
-
+   const bdTop = await getSingleArtist('60jYUgQzKAtnJoXKGk1GNn')
+   const hindiTop = await getSingleArtist('4YRxDV8wJFPHPTeXepOstw')
+   const bangla = await getReletedArtists('60jYUgQzKAtnJoXKGk1GNn')
+   const hindi = await getReletedArtists('4YRxDV8wJFPHPTeXepOstw')
+   const english = await getReletedArtists('06HL4z0CvFAxyc27GXpf02')
+   const albums = await getNewReleases()
+   bangla.artists.unshift(bdTop)
+   hindi.artists.unshift(hindiTop)
+   const topArtist = await getTopItems('artists')
+   const topTracks = await getTopItems('tracks')
+   const session = await auth()
    return (
-      <div className="overflow-y-auto max-h-[calc(100vh-32px)] pb-32">
-         <div className="px-4">
-            <Text className="line-clamp-1" ta="left" fz="h2" fw={500} mt="md">
-               Bangla
-            </Text>
-            <div className="grid xl:grid-cols-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-4">
-               {bangla?.artists?.items?.length > 0 &&
-                  bangla.artists.items.map((artist: any) => (
-                     <ArtistCard
-                        key={artist.id}
-                        name={artist.name}
-                        image={artist.images[0]?.url || ''}
-                        genres={artist.genres.join(' . ')}
-                        artist_id={artist.id}
-                     />
-                  ))}
+      <div className="max-h-[calc(100vh-32px)] overflow-y-auto pb-32">
+         <Console data={topArtist} />
+         <Console data={topTracks} />
+         <Console data={session} />
+         <div>
+            <h2 className="my-8 text-2xl font-medium">New Releases</h2>
+            <div>
+               <AlbumCarousel albums={albums.albums.items} />
             </div>
          </div>
-         <div className="px-4">
-            <Text className="line-clamp-1" ta="left" fz="h2" fw={500} mt="md">
-               Indian
-            </Text>
-            <div className="grid xl:grid-cols-5 grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 mt-4">
-               {hindi?.artists?.items?.length > 0 &&
-                  hindi.artists.items.map((artist: any) => (
-                     <ArtistCard
-                        key={artist.id}
-                        name={artist.name}
-                        image={artist.images[0]?.url || ''}
-                        genres={artist.genres.join(' . ')}
-                        artist_id={artist.id}
-                     />
-                  ))}
+         <div>
+            <h2 className="my-8 text-2xl font-medium">
+               Popular Bengali Artists
+            </h2>
+            <div>
+               <ArtistCarousel artists={bangla.artists} />
+            </div>
+         </div>
+         <div>
+            <h2 className="my-8 text-2xl font-medium">
+               Popular Indian Artists
+            </h2>
+            <div>
+               <ArtistCarousel artists={hindi.artists} />
+            </div>
+         </div>
+         <div>
+            <h2 className="my-8 text-2xl font-medium">
+               Popular Amerian Artists
+            </h2>
+            <div>
+               <ArtistCarousel artists={english.artists} />
             </div>
          </div>
       </div>

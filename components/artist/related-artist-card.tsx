@@ -1,3 +1,4 @@
+import { printFollowers } from '@/utils/printFollowers'
 import { Avatar, Group, Paper, Text } from '@mantine/core'
 import Link from 'next/link'
 
@@ -18,9 +19,9 @@ export function RelatedArtistCard({ artist }: { artist: any }) {
                {artist.genres.join(' . ') || 'Singer'}
             </Text>
             <Group mt="md" justify="center" gap={30}>
-               <div>
+               <div className='flex items-center gap-2'>
                   <Text ta="center" fz="lg" fw={500}>
-                     {Math.round(artist?.followers?.total / 1000)}k
+                     {printFollowers(artist?.followers?.total)}
                   </Text>
                   <Text ta="center" fz="sm" c="dimmed" lh={1}>
                      Followers

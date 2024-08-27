@@ -14,16 +14,16 @@ export default async function Playlist({
    const tracklist = playlist?.tracks?.items?.map((item: any) => item.track)
 
    return (
-      <div className="overflow-hidden overflow-y-auto max-h-[calc(100vh-32px)] pb-32">
+      <div className="max-h-[calc(100vh-106px)] overflow-hidden overflow-y-auto pb-32">
          <div
             style={{ backgroundColor: palette?.DarkMuted?.hex }}
-            className="rounded-md grid grid-cols-[auto,1fr] gap-x-8 p-10 relative"
+            className="relative grid grid-cols-[auto,1fr] gap-x-8 rounded-md p-10"
          >
-            <div className="flex justify-end flex-col">
+            <div className="flex flex-col justify-end">
                <Avatar src={playlist?.images[0]?.url} size={200} radius={7} />
             </div>
             <div
-               className="flex justify-end flex-col"
+               className="flex flex-col justify-end"
                style={{
                   color: palette?.DarkMuted?.titleTextColor || '#ffffff',
                }}
@@ -31,7 +31,7 @@ export default async function Playlist({
                <div className="flex items-center gap-2">
                   <p>Playlist</p>
                </div>
-               <h1 className="text-8xl font-extrabold my-2 line-clamp-1">
+               <h1 className="my-2 line-clamp-1 text-8xl font-extrabold">
                   {playlist.name}
                </h1>
                <div className="flex items-center gap-4">
@@ -43,7 +43,7 @@ export default async function Playlist({
             <div>
                <div className="flex items-center gap-4">
                   <PlayAll playlist={tracklist} />
-                  <h2 className="text-2xl font-semibold my-8">
+                  <h2 className="my-8 text-2xl font-semibold">
                      Play All Songs
                   </h2>
                </div>

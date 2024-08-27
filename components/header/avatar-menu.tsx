@@ -20,9 +20,8 @@ import {
 import cx from 'clsx'
 import { useState } from 'react'
 
-import classes from './avatar-menu.module.css'
-import { signOut } from '@/auth'
 import { logout } from '@/actions/logout'
+import classes from './avatar-menu.module.css'
 
 type User = {
    name: string
