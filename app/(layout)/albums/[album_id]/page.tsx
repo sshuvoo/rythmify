@@ -1,12 +1,12 @@
+import { checkSavedAlbum } from '@/actions/check-saved-albums'
 import { getAlbum } from '@/actions/get-album'
 import { getArtists } from '@/actions/get-artists'
 import { getImageColor } from '@/actions/get-image-color'
-import { saveAlbumToLibrary } from '@/actions/save-albums'
 import AvatarGroup from '@/components/album/avatar-group'
 import PlayAll from '@/components/button/playall-button'
+import { SaveAlbumButton } from '@/components/button/save-album-button'
 import { TrackListCard } from '@/components/track/track-list-card'
-import { Avatar, Button } from '@mantine/core'
-import { IconHeartPlus } from '@tabler/icons-react'
+import { Avatar } from '@mantine/core'
 
 export default async function Album({
    params: { album_id },
@@ -18,6 +18,7 @@ export default async function Album({
    const artists = await getArtists(
       album?.artists?.map((artist: any) => artist.id).join(',')
    )
+   const isSaved = await checkSavedAlbum(album_id)
 
    return (
       <div className="max-h-[calc(100vh-106px)] overflow-hidden overflow-y-auto pb-32">
@@ -61,15 +62,7 @@ export default async function Album({
                         Play All Songs
                      </h2>
                   </div>
-                  <form action={saveAlbumToLibrary.bind(null, album_id)}>
-                     <Button
-                        color="#000000"
-                        type="submit"
-                        leftSection={<IconHeartPlus />}
-                     >
-                        Save to Library
-                     </Button>
-                  </form>
+                  <SaveAlbumButton isSaved={isSaved} album_id={album_id} />
                </div>
                <table className="w-full">
                   <tbody>

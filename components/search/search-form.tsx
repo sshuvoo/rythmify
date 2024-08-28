@@ -11,7 +11,9 @@ export default function SearchForm() {
    const router = useRouter()
 
    const handleSearch = useDebouncedCallback((value: string) => {
-      router.push(value ? `/search?q=${value}` : '/search')
+      if (value && value.trim() !== '') {
+         router.push(value ? `/search?q=${value.trim()}` : '/search')
+      }
    }, 1000)
 
    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {

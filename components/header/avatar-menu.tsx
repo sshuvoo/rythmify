@@ -107,18 +107,19 @@ export function AvatarMenu({ email, image, name }: User) {
             >
                Account settings
             </Menu.Item>
-            <Menu.Item
-               leftSection={
-                  <IconLogout
-                     style={{ width: rem(16), height: rem(16) }}
-                     stroke={1.5}
-                  />
-               }
-            >
-               <form action={logout}>
-                  <button type="submit">Logout</button>
-               </form>
-            </Menu.Item>
+            <form action={logout}>
+               <Menu.Item
+                  type="submit"
+                  leftSection={
+                     <IconLogout
+                        style={{ width: rem(16), height: rem(16) }}
+                        stroke={1.5}
+                     />
+                  }
+               >
+                  Logout
+               </Menu.Item>
+            </form>
          </Menu.Dropdown>
       </Menu>
    )

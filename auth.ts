@@ -16,11 +16,7 @@ declare module 'next-auth' {
 export const { handlers, signIn, signOut, auth } = NextAuth({
    providers: [
       Spotify({
-         authorization: {
-            params: {
-               scope: 'user-top-read user-read-recently-played user-library-modify user-library-read user-read-email user-read-private',
-            },
-         },
+         authorization: `https://accounts.spotify.com/authorize?scope=${encodeURIComponent('user-top-read user-read-recently-played user-library-modify user-library-read user-read-email user-read-private user-follow-read user-follow-modify')}`,
       }),
    ],
    callbacks: {
@@ -37,8 +33,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
          } else if (Date.now() < (token.expires_at as number)) {
             return token
          } else {
-            if (!token.refresh_token)
-               throw new TypeError('Missing refresh_token')
+            if (!token.refresh_token) throw new Error('Missing refresh_token')
             try {
                const response = await fetch(
                   'https://accounts.spotify.com/api/token',
@@ -47,17 +42,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
                      cache: 'no-store',
                      headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
-                        Authorization:
-                           'Basic ' +
-                           Buffer.from(
-                              process.env.AUTH_SPOTIFY_ID +
-                                 ':' +
-                                 process.env.AUTH_SPOTIFY_SECRET
-                           ).toString('base64'),
                      },
                      body: new URLSearchParams({
                         grant_type: 'refresh_token',
                         refresh_token: token.refresh_token as string,
+                        client_id: process.env.AUTH_SPOTIFY_ID!,
                      }),
                   }
                )

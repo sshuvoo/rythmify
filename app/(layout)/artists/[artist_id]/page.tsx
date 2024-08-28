@@ -1,3 +1,4 @@
+import { checkFollowingArtists } from '@/actions/check-following-artists'
 import { getArtistAlbums } from '@/actions/get-artists-album'
 import { getArtistsTopTracks } from '@/actions/get-artists-top-tracks'
 import { getImageColor } from '@/actions/get-image-color'
@@ -6,6 +7,8 @@ import { getReletedArtists } from '@/actions/get-related-artists'
 import { getSingleArtist } from '@/actions/get-single-artist'
 import AlbumCarousel from '@/components/album/album-carousel'
 import ArtistCarousel from '@/components/artist/artist-carousel'
+import { FollowButton } from '@/components/button/follow-button'
+import PlayAll from '@/components/button/playall-button'
 import TrackPlayButton from '@/components/button/track-play-button'
 import { AudioPlayAnimation } from '@/components/track/audio-play-animation'
 import { msToDuration } from '@/utils/ms-to-duration'
@@ -23,6 +26,8 @@ export default async function Artist({
    const relatedArtists = await getReletedArtists(artist_id)
    const recomend = await getRecomendTracks(artist_id, artist.genres)
    const palette = await getImageColor(artist?.images[0]?.url)
+   const isFollowed = await checkFollowingArtists(artist_id)
+
    return (
       <div className="max-h-[calc(100vh-106px)] overflow-hidden overflow-y-auto pb-32">
          <div
@@ -48,17 +53,17 @@ export default async function Artist({
          </div>
          <div className="grid grid-cols-2 gap-8">
             <div>
+               <div className="mt-6 flex items-center gap-4">
+                  <div className="flex items-center gap-4">
+                     <PlayAll playlist={tracks?.tracks} />
+                     <h2 className="text-2xl font-semibold">Play All Songs</h2>
+                  </div>
+                  <FollowButton artist_id={artist_id} isFollowed={isFollowed} />
+               </div>
                <div>
-                  <h2 className="my-8 text-2xl font-semibold">
+                  <h2 className="my-6 text-2xl font-semibold">
                      Popular From {artist.name.split(' ').at(-1)}
                   </h2>
-                  {/* <Link
-                     className="flex gap-1 items-center border px-2 py-1 text-sm"
-                     href={`/artists/${artist_id}/top-tracks`}
-                  >
-                     <span>See more</span>
-                     <IconChevronRight className="h-4 w-4" />
-                  </Link> */}
                </div>
                <div className="space-y-4">
                   {tracks?.tracks?.length > 0 &&

@@ -4,16 +4,16 @@ import { auth } from '@/auth'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-export const saveAndDeleteAlbum = async (
-   album_id: string,
+export const followUnfollowArtists = async (
+   artist_id: string,
    method: 'PUT' | 'DELETE'
 ) => {
    const session = await auth()
-   if (!session) redirect(`/authentication?redirect_to=/albums/${album_id}`)
+   if (!session) redirect(`/authentication?redirect_to=/artists/${artist_id}`)
 
    try {
       const response = await fetch(
-         `${process.env.BASE_API_URL}/me/albums?ids=${album_id}`,
+         `${process.env.BASE_API_URL}/me/following?type=artist&ids=${artist_id}`,
          {
             method,
             headers: {
@@ -21,9 +21,10 @@ export const saveAndDeleteAlbum = async (
             },
          }
       )
+
       if (!response.ok) throw new Error('Server error')
       revalidatePath('/')
-      revalidatePath(`/albums/${album_id}`)
+      revalidatePath(`/artists/${artist_id}`)
    } catch (error) {
       console.log(error)
    }

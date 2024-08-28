@@ -5,6 +5,7 @@ import { getTopItems } from '@/actions/get-top-items'
 import { auth } from '@/auth'
 import AlbumCarousel from '@/components/album/album-carousel'
 import ArtistCarousel from '@/components/artist/artist-carousel'
+import { TopArtistCard } from '@/components/artist/top-artist-card'
 import { Console } from '@/components/console'
 
 export default async function Home() {
@@ -21,9 +22,15 @@ export default async function Home() {
    const session = await auth()
    return (
       <div className="max-h-[calc(100vh-32px)] overflow-y-auto pb-32">
-         <Console data={topArtist} />
-         <Console data={topTracks} />
          <Console data={session} />
+         <div>
+            <h2 className="my-8 text-2xl font-medium">Most Played Artists</h2>
+            <div className='grid grid-cols-4 gap-4'>
+               {topArtist?.items?.map((artist: any) => (
+                  <TopArtistCard artist={artist} key={artist.id} />
+               ))}
+            </div>
+         </div>
          <div>
             <h2 className="my-8 text-2xl font-medium">New Releases</h2>
             <div>
