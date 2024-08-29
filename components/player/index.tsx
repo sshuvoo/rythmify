@@ -2,7 +2,7 @@
 
 import { useController } from '@/hooks/use-controller'
 import { sToDuration } from '@/utils/s-to-duration'
-import { Indicator, Slider } from '@mantine/core'
+import { Slider } from '@mantine/core'
 import {
    IconArrowsShuffle,
    IconPlayerPauseFilled,
@@ -20,9 +20,9 @@ import { Audio as AudioPlayAnimation } from 'react-loader-spinner'
 export function Player() {
    const controller = useController()
    return (
-      <div className="fixed bottom-0 rounded-md w-full max-w-3xl bg-[#f7f7f7cc] border-2 border-black/10 left-1/2 -translate-x-1/2 p-4 shadow z-[1000] backdrop-blur-md">
+      <div className="fixed bottom-0 left-1/2 z-[1000] w-full max-w-3xl -translate-x-1/2 rounded-md border-2 border-black/10 bg-[#f7f7f7cc] p-4 shadow backdrop-blur-md">
          <div className="grid grid-cols-3 items-center py-2">
-            <div className="px-4 flex items-end gap-2">
+            <div className="flex items-end gap-2 px-4">
                <AudioPlayAnimation
                   height="25"
                   width="20"
@@ -36,7 +36,7 @@ export function Player() {
                   {controller?.playerState.currentTrack?.name}
                </p>
             </div>
-            <div className="flex justify-center items-center gap-6">
+            <div className="flex items-center justify-center gap-6">
                <button
                   onClick={controller?.handleShuffle}
                   title="Shuffle"
@@ -45,7 +45,7 @@ export function Player() {
                >
                   <IconArrowsShuffle />
                   {controller?.playerState.isShuffled && (
-                     <span className="w-2 h-2 bg-green-500 inline-block rounded-full absolute -top-1 -right-1"></span>
+                     <span className="absolute -right-1 -top-1 inline-block h-2 w-2 rounded-full bg-green-500"></span>
                   )}
                </button>
                <button onClick={controller?.handlePrev} title="Previous">
@@ -53,7 +53,7 @@ export function Player() {
                </button>
                <button
                   onClick={controller?.handlePlay}
-                  className="bg-black w-10 h-10 flex items-center justify-center rounded-full"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-black"
                   title="Play/Pause"
                >
                   {controller?.playerState.isPlaying ? (
@@ -104,7 +104,7 @@ export function Player() {
                />
             </div>
          </div>
-         <div className="grid grid-cols-[auto,1fr,auto] items-center px-4 gap-x-4">
+         <div className="grid grid-cols-[auto,1fr,auto] items-center gap-x-4 px-4">
             <p className="text-sm">
                {sToDuration(
                   controller?.playerState.duration! -

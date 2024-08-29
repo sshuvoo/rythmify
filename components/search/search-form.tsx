@@ -3,12 +3,19 @@
 import { Input } from '@mantine/core'
 import { useDebouncedCallback } from '@mantine/hooks'
 import { IconSearch } from '@tabler/icons-react'
-import { useRouter } from 'next/navigation'
-import { ChangeEvent, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { ChangeEvent, useEffect, useState } from 'react'
 
 export default function SearchForm() {
    const [query, setQuery] = useState('')
    const router = useRouter()
+   const searchParams = useSearchParams()
+
+   useEffect(() => {
+      if (searchParams.has('q')) {
+         setQuery(searchParams.get('q') || '')
+      }
+   }, [searchParams])
 
    const handleSearch = useDebouncedCallback((value: string) => {
       if (value && value.trim() !== '') {

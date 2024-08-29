@@ -5,7 +5,6 @@ import ArtistCarousel from '@/components/artist/artist-carousel'
 import AudiobookCarousel from '@/components/audiobook/audiobook-carousel'
 import CategoryCard from '@/components/search/category-card'
 import { SearchFilter } from '@/components/search/search-filter'
-import SearchForm from '@/components/search/search-form'
 import { TrackListCard } from '@/components/track/track-list-card'
 
 export default async function SearchPage({
@@ -69,7 +68,7 @@ export default async function SearchPage({
          {categories?.categories?.items?.length > 0 && (
             <div>
                <div>
-                  <h2 className="my-8 text-2xl font-semibold">Browse All</h2>
+                  <h2 className="my-4 text-2xl font-semibold">Browse All</h2>
                </div>
                <div className="grid grid-cols-4 gap-4">
                   {categories.categories.items.map((item: any) => (

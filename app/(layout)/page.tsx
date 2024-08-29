@@ -2,11 +2,10 @@ import { getNewReleases } from '@/actions/get-new-releases'
 import { getReletedArtists } from '@/actions/get-related-artists'
 import { getSingleArtist } from '@/actions/get-single-artist'
 import { getTopItems } from '@/actions/get-top-items'
-import { auth } from '@/auth'
 import AlbumCarousel from '@/components/album/album-carousel'
 import ArtistCarousel from '@/components/artist/artist-carousel'
 import { TopArtistCard } from '@/components/artist/top-artist-card'
-import { Console } from '@/components/console'
+import { TopTrackCard } from '@/components/track/top-track-card'
 
 export default async function Home() {
    const bdTop = await getSingleArtist('60jYUgQzKAtnJoXKGk1GNn')
@@ -17,15 +16,26 @@ export default async function Home() {
    const albums = await getNewReleases()
    bangla.artists.unshift(bdTop)
    hindi.artists.unshift(hindiTop)
-   const topArtist = await getTopItems('artists')
-   const topTracks = await getTopItems('tracks')
-   const session = await auth()
+   const topArtist = await getTopItems('artists', 10)
+   const topTracks = await getTopItems('tracks', 4)
+
    return (
       <div className="max-h-[calc(100vh-32px)] overflow-y-auto pb-32">
-         <Console data={session} />
+         <div>
+            <h2 className="my-8 text-2xl font-medium">Most Listened Songs</h2>
+            <div className="grid grid-cols-4 gap-4">
+               {topTracks?.items?.map((track: any) => (
+                  <TopTrackCard
+                     playlist={topTracks.items}
+                     track={track}
+                     key={track.id}
+                  />
+               ))}
+            </div>
+         </div>
          <div>
             <h2 className="my-8 text-2xl font-medium">Most Played Artists</h2>
-            <div className='grid grid-cols-4 gap-4'>
+            <div className="grid grid-cols-4 gap-4">
                {topArtist?.items?.map((artist: any) => (
                   <TopArtistCard artist={artist} key={artist.id} />
                ))}
