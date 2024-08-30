@@ -112,7 +112,7 @@ export function Player() {
                )}
             </p>
             <Slider
-               thumbSize={16}
+               thumbSize={12}
                size="xs"
                min={0}
                max={controller?.playerState.duration || 60}

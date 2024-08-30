@@ -1,26 +1,24 @@
 import { getFeaturedPlaylists } from '@/actions/get-featured-playlists'
+import { getFollowedArtists } from '@/actions/get-followed-artists'
+import { getMyPlaylists } from '@/actions/get-my-playlists'
 import { getSavedAlbums } from '@/actions/get-saved-albums'
-import { Image } from '@mantine/core'
-import {
-   IconHomeFilled,
-   IconPlaylist,
-   IconPlus,
-   IconSearch,
-} from '@tabler/icons-react'
+import { IconHomeFilled, IconPlaylist, IconSearch } from '@tabler/icons-react'
 import Link from 'next/link'
 import { Console } from '../console'
+import CreatePlaylistIcon from './create-playlist-icon'
 import { SidebarAlbumCard } from './sidebar-album-card'
-import { getFollowedArtists } from '@/actions/get-followed-artists'
 import { SidebarArtistCard } from './sidebar-artist-card'
+import { SidebarPlaylistCard } from './sidebar-playlist-card'
 
 export default async function Sidebar() {
    const savedAlbums = await getSavedAlbums()
    const popularPlaylists = await getFeaturedPlaylists()
    const followedArtists = await getFollowedArtists()
+   const myPlaylists = await getMyPlaylists()
 
    return (
-      <div className="max-w-[420px] space-y-4">
-         <Console data={followedArtists} />
+      <div className="w-[420px] space-y-4">
+         <Console data={myPlaylists} />
          <div className="space-y-4 rounded-md border border-gray-200 px-4 py-5">
             <Link
                className="flex items-center gap-3 text-base font-bold"
@@ -44,12 +42,23 @@ export default async function Sidebar() {
                   <span>Your Music Library</span>
                </div>
                <div>
-                  <button>
-                     <IconPlus />
-                  </button>
+                  <CreatePlaylistIcon />
                </div>
             </div>
             <div className="max-h-[calc(100vh-280px)] overflow-y-auto">
+               <div>
+                  <div className="my-4 flex items-center gap-3 text-base font-bold">
+                     <span>My Playlist</span>
+                  </div>
+                  <div>
+                     {myPlaylists?.items?.map((playlist: any) => (
+                        <SidebarPlaylistCard
+                           key={playlist.id}
+                           playlist={playlist}
+                        />
+                     ))}
+                  </div>
+               </div>
                <div>
                   <div className="my-4 flex items-center gap-3 text-base font-bold">
                      <span>Followed Artists</span>
@@ -79,34 +88,10 @@ export default async function Sidebar() {
                   </div>
                   <div>
                      {popularPlaylists.playlists.items.map((playlist: any) => (
-                        <Link
-                           href={`/playlists/${playlist.id}`}
+                        <SidebarPlaylistCard
                            key={playlist.id}
-                           className="flex items-center justify-between gap-4 p-2 hover:bg-gray-100"
-                        >
-                           <div className="grid grid-cols-[auto,1fr] gap-4">
-                              <div className="h-20 w-20">
-                                 <Image
-                                    radius="md"
-                                    h={80}
-                                    w={80}
-                                    src={playlist.images[0].url}
-                                    alt=""
-                                 />
-                              </div>
-                              <div>
-                                 <h3 className="line-clamp-1 text-xl font-medium">
-                                    {playlist.name}
-                                 </h3>
-                                 <p className="line-clamp-1 text-sm font-light">
-                                    {playlist.description}
-                                 </p>
-                                 <p className="line-clamp-1 text-sm font-medium">
-                                    Tracks: {playlist.tracks.total}
-                                 </p>
-                              </div>
-                           </div>
-                        </Link>
+                           playlist={playlist}
+                        />
                      ))}
                   </div>
                </div>

@@ -1,3 +1,4 @@
+import { ModalProvider } from '@/provider/modal-provider'
 import { PlayerProvider } from '@/provider/player-provider'
 import '@mantine/carousel/styles.css'
 import { ColorSchemeScript, MantineProvider } from '@mantine/core'
@@ -6,6 +7,8 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
 import './globals.css'
+import { CreatePlaylistModal } from '@/components/modal/create-playlist-modal'
+import { EditPlaylistModal } from '@/components/modal/edit-playlist-modal'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,7 +29,11 @@ export default function RootLayout({ children }: Readonly<Children>) {
          </head>
          <body className={inter.className}>
             <MantineProvider>
-               <PlayerProvider>{children}</PlayerProvider>
+               <ModalProvider>
+                  <PlayerProvider>{children}</PlayerProvider>
+                  <CreatePlaylistModal />
+                  <EditPlaylistModal />
+               </ModalProvider>
             </MantineProvider>
             <Toaster />
          </body>

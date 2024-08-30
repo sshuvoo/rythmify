@@ -3,7 +3,6 @@ import { Image } from '@mantine/core'
 import Link from 'next/link'
 
 export function SidebarArtistCard({ artist }: { artist: any }) {
-   console.log(artist)
    return (
       <Link
          href={`/artists/${artist.id}`}
