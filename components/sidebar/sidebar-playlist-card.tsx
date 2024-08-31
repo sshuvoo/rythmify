@@ -1,4 +1,5 @@
 import { Image } from '@mantine/core'
+import { IconMusic } from '@tabler/icons-react'
 import Link from 'next/link'
 import React from 'react'
 
@@ -10,13 +11,17 @@ export function SidebarPlaylistCard({ playlist }: { playlist: any }) {
       >
          <div className="grid grid-cols-[auto,1fr] gap-4">
             <div className="h-[50px] w-[50px]">
-               <Image
-                  radius="md"
-                  h={50}
-                  w={50}
-                  src={playlist?.images && playlist?.images[0]?.url}
-                  alt={playlist?.name}
-               />
+               {playlist?.images && playlist?.images[0]?.url ? (
+                  <Image
+                     radius="md"
+                     h={50}
+                     w={50}
+                     src={playlist?.images[0]?.url}
+                     alt={playlist?.name}
+                  />
+               ) : (
+                  <IconMusic className="h-full w-full text-[#868e96]" />
+               )}
             </div>
             <div>
                <h3 className="line-clamp-1 text-lg font-medium">

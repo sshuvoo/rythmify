@@ -18,7 +18,7 @@ declare module 'next-auth' {
 export const { handlers, signIn, signOut, auth } = NextAuth({
    providers: [
       Spotify({
-         authorization: `https://accounts.spotify.com/authorize?scope=${encodeURIComponent('user-top-read user-read-recently-played user-library-modify user-library-read user-read-email user-read-private user-follow-read user-follow-modify playlist-modify-public playlist-modify-private')}`,
+         authorization: `https://accounts.spotify.com/authorize?scope=${encodeURIComponent('user-top-read user-read-recently-played user-library-modify user-library-read user-read-email user-read-private user-follow-read user-follow-modify playlist-modify-public playlist-modify-private ugc-image-upload')}`,
       }),
    ],
    callbacks: {

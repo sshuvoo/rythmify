@@ -9,6 +9,8 @@ import { Toaster } from 'react-hot-toast'
 import './globals.css'
 import { CreatePlaylistModal } from '@/components/modal/create-playlist-modal'
 import { EditPlaylistModal } from '@/components/modal/edit-playlist-modal'
+import { auth } from '@/auth'
+import { SessionProvider } from 'next-auth/react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,7 +23,8 @@ interface Children {
    children: React.ReactNode
 }
 
-export default function RootLayout({ children }: Readonly<Children>) {
+export default async function RootLayout({ children }: Readonly<Children>) {
+   const session = await auth()
    return (
       <html lang="en">
          <head>
@@ -29,13 +32,16 @@ export default function RootLayout({ children }: Readonly<Children>) {
          </head>
          <body className={inter.className}>
             <MantineProvider>
-               <ModalProvider>
-                  <PlayerProvider>{children}</PlayerProvider>
-                  <CreatePlaylistModal />
-                  <EditPlaylistModal />
-               </ModalProvider>
+               <SessionProvider session={session}>
+                  <ModalProvider>
+                     <PlayerProvider>{children}</PlayerProvider>
+                     <CreatePlaylistModal />
+                     <EditPlaylistModal />
+                  </ModalProvider>
+               </SessionProvider>
             </MantineProvider>
             <Toaster />
+            <div id="modal-root" />
          </body>
       </html>
    )

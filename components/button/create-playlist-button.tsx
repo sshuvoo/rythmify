@@ -1,22 +1,33 @@
 'use client'
 
 import { useModal } from '@/hooks/use-modal'
-import { Button } from '@mantine/core'
+import { Button, Tooltip } from '@mantine/core'
 import { IconPlus } from '@tabler/icons-react'
+import { useSession } from 'next-auth/react'
 
 export function CreatePlaylistButton() {
-   const { open, onSetModalType } = useModal()
+   const {
+      add: { addModalOpen },
+   } = useModal()
+   const { status } = useSession()
+
    return (
-      <Button
-         onClick={() => {
-            onSetModalType('add')
-            open()
-         }}
-         color="#000000"
-         type="button"
-         leftSection={<IconPlus />}
+      <Tooltip
+         label={
+            status === 'loading' || status === 'unauthenticated'
+               ? 'Please login first'
+               : 'Click to start'
+         }
       >
-         Create new playlist
-      </Button>
+         <Button
+            disabled={status === 'loading' || status === 'unauthenticated'}
+            onClick={addModalOpen}
+            color="#000000"
+            type="button"
+            leftSection={<IconPlus />}
+         >
+            Create new playlist
+         </Button>
+      </Tooltip>
    )
 }

@@ -1,3 +1,4 @@
+import { checkMyPlaylist } from '@/actions/check-my-playlist'
 import { getImageColor } from '@/actions/get-image-color'
 import { getPlaylist } from '@/actions/get-playlist'
 import { CreatePlaylistButton } from '@/components/button/create-playlist-button'
@@ -17,6 +18,7 @@ export default async function Playlist({
       playlist?.images[0]?.url &&
       (await getImageColor(playlist?.images[0]?.url))
    const tracklist = playlist?.tracks?.items?.map((item: any) => item.track)
+   const isMyPlaylist = await checkMyPlaylist(playlist_id)
 
    return (
       <div className="max-h-[calc(100vh-106px)] overflow-hidden overflow-y-auto pb-32">
@@ -50,18 +52,21 @@ export default async function Playlist({
          </div>
          <div>
             <div className="my-4 flex items-center justify-between">
-               <SettingsMenu playlist={playlist} />
-               <CreatePlaylistButton />
-            </div>
-
-            {playlist?.tracks?.items?.length > 0 && (
-               <div className="flex items-center gap-4">
-                  <PlayAll playlist={tracklist} />
-                  <h2 className="my-4 text-2xl font-semibold">
-                     Play All Songs
-                  </h2>
+               <div>
+                  {playlist?.tracks?.items?.length > 0 && (
+                     <div className="flex items-center gap-4">
+                        <PlayAll playlist={tracklist} />
+                        <h2 className="my-4 text-2xl font-semibold">
+                           Play All Songs
+                        </h2>
+                     </div>
+                  )}
                </div>
-            )}
+               <div className="flex items-center gap-2">
+                  <SettingsMenu isMyPlaylist={isMyPlaylist} playlist={playlist} />
+                  <CreatePlaylistButton />
+               </div>
+            </div>
 
             {playlist?.tracks?.items?.length > 0 && (
                <table className="w-full">
