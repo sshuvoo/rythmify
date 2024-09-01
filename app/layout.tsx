@@ -1,16 +1,13 @@
-import { ModalProvider } from '@/provider/modal-provider'
+import { auth } from '@/auth'
 import { PlayerProvider } from '@/provider/player-provider'
 import '@mantine/carousel/styles.css'
 import { ColorSchemeScript, MantineProvider } from '@mantine/core'
 import '@mantine/core/styles.css'
 import type { Metadata } from 'next'
+import { SessionProvider } from 'next-auth/react'
 import { Inter } from 'next/font/google'
 import { Toaster } from 'react-hot-toast'
 import './globals.css'
-import { CreatePlaylistModal } from '@/components/modal/create-playlist-modal'
-import { EditPlaylistModal } from '@/components/modal/edit-playlist-modal'
-import { auth } from '@/auth'
-import { SessionProvider } from 'next-auth/react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -33,11 +30,7 @@ export default async function RootLayout({ children }: Readonly<Children>) {
          <body className={inter.className}>
             <MantineProvider>
                <SessionProvider session={session}>
-                  <ModalProvider>
-                     <PlayerProvider>{children}</PlayerProvider>
-                     <CreatePlaylistModal />
-                     <EditPlaylistModal />
-                  </ModalProvider>
+                  <PlayerProvider>{children}</PlayerProvider>
                </SessionProvider>
             </MantineProvider>
             <Toaster />

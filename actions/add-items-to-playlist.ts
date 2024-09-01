@@ -3,25 +3,26 @@
 import { auth } from '@/auth'
 import { revalidatePath } from 'next/cache'
 
-export const uploadPlaylistImage = async (
+export const addItemsToPlaylist = async (
    playlist_id: string,
-   base64Image: string
+   track_ids: string[]
 ) => {
    const session = await auth()
-
    if (!session) throw new Error('Please login first')
+   const query = track_ids
+      .map((track_id) => `spotify:track:${track_id}`)
+      .join(',')
    const response = await fetch(
-      `${process.env.BASE_API_URL}/playlists/${playlist_id}/images`,
+      `${process.env.BASE_API_URL}/playlists/${playlist_id}/tracks?uris=${query}`,
       {
-         method: 'PUT',
+         method: 'POST',
          headers: {
             Authorization: `Bearer ${session.token.access_token}`,
-            'Content-Type': 'image/jpeg',
+            'Content-Type': 'application/json',
          },
-         body: base64Image,
       }
    )
-   if (!response.ok) throw new Error(response.statusText)
+   if (!response.ok) throw new Error('Server error')
    revalidatePath('/')
    revalidatePath(`/playlists/${playlist_id}`)
 }

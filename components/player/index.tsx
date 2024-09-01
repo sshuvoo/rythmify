@@ -21,8 +21,8 @@ export function Player() {
    const controller = useController()
    return (
       <div className="fixed bottom-0 left-1/2 z-[1000] w-full max-w-3xl -translate-x-1/2 rounded-md border-2 border-black/10 bg-[#f7f7f7cc] p-4 shadow backdrop-blur-md">
-         <div className="grid grid-cols-3 items-center py-2">
-            <div className="flex items-end gap-2 px-4">
+         <div className="grid grid-cols-[1fr,150px] items-center py-2 xl:grid-cols-3">
+            <div className="hidden items-end gap-2 px-4 xl:flex">
                <AudioPlayAnimation
                   height="25"
                   width="20"

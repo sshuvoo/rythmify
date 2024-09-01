@@ -11,7 +11,8 @@ export default function ArtistCarousel({ artists }: { artists: any[] }) {
          dragFree
          align="start"
          slidesToScroll={1}
-         slideSize={{ base: "100%", sm: "50%", md: "33.333333%", xl: "20%" }}
+         slideSize={{ base: "100%", xs: "50%", md: "33.333333%", xl: "20%" }}
+         
       >
          {artists.map((artist: any) => (
             <Carousel.Slide key={artist.id}>

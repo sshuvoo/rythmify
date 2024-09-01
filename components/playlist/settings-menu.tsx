@@ -1,6 +1,5 @@
 'use client'
 
-import { useModal } from '@/hooks/use-modal'
 import { Button, Menu, rem, Tooltip } from '@mantine/core'
 import {
    IconDots,
@@ -12,6 +11,7 @@ import {
 import { useSession } from 'next-auth/react'
 import { useState } from 'react'
 import { createPortal } from 'react-dom'
+import { EditPlaylistModal } from '../modal/edit-playlist-modal'
 import PhotoModal from '../modal/photo-modal'
 
 export function SettingsMenu({
@@ -21,15 +21,10 @@ export function SettingsMenu({
    playlist: any
    isMyPlaylist: boolean
 }) {
-   const {
-      edit: { editModalOpen, onSetPlaylistInfo },
-   } = useModal()
    const { status } = useSession()
    const [isOpenPhotoModal, setIsOpenPhotoModal] = useState(false)
+   const [isOpenEditModal, setIsOpenEditModal] = useState(false)
 
-   const handlePhotoDialog = () => {
-      setIsOpenPhotoModal(!isOpenPhotoModal)
-   }
    return (
       <>
          <Menu shadow="md" width={200}>
@@ -58,7 +53,9 @@ export function SettingsMenu({
             <Menu.Dropdown>
                <Menu.Label>Application</Menu.Label>
                <Menu.Item
-                  onClick={handlePhotoDialog}
+                  onClick={() => {
+                     setIsOpenPhotoModal(!isOpenPhotoModal)
+                  }}
                   leftSection={
                      <IconPhotoPlus
                         style={{ width: rem(14), height: rem(14) }}
@@ -69,13 +66,7 @@ export function SettingsMenu({
                </Menu.Item>
                <Menu.Item
                   onClick={() => {
-                     onSetPlaylistInfo({
-                        id: playlist?.id,
-                        name: playlist?.name || '',
-                        description: playlist?.description || '',
-                        public: playlist?.public ? 'public' : 'private',
-                     })
-                     editModalOpen()
+                     setIsOpenEditModal(true)
                   }}
                   leftSection={
                      <IconEdit style={{ width: rem(14), height: rem(14) }} />
@@ -112,6 +103,21 @@ export function SettingsMenu({
                   playlist_id={playlist.id}
                   onClose={() => {
                      setIsOpenPhotoModal(false)
+                  }}
+               />,
+               document.getElementById('modal-root')!
+            )}
+         {isOpenEditModal &&
+            createPortal(
+               <EditPlaylistModal
+                  info={{
+                     id: playlist?.id,
+                     name: playlist?.name || '',
+                     description: playlist?.description || '',
+                     public: playlist?.public ? 'public' : 'private',
+                  }}
+                  onClose={() => {
+                     setIsOpenEditModal(false)
                   }}
                />,
                document.getElementById('modal-root')!

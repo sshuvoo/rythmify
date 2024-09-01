@@ -5,12 +5,10 @@ import {
    Group,
    Menu,
    rem,
-   Text,
    UnstyledButton,
    useMantineTheme,
 } from '@mantine/core'
 import {
-   IconChevronDown,
    IconHeart,
    IconLogout,
    IconMail,
@@ -50,13 +48,9 @@ export function AvatarMenu({ email, image, name }: User) {
             >
                <Group gap={7}>
                   <Avatar src={image} alt={name} radius="xl" size={40} />
-                  <Text fw={500} size="sm" lh={1} mr={3}>
+                  <h2 className="mr-3 hidden text-sm font-medium md:block">
                      {name}
-                  </Text>
-                  <IconChevronDown
-                     style={{ width: rem(12), height: rem(12) }}
-                     stroke={1.5}
-                  />
+                  </h2>
                </Group>
             </UnstyledButton>
          </Menu.Target>

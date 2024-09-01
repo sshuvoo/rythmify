@@ -12,7 +12,12 @@ export function TopTrackCard({
    return (
       <Card withBorder radius="md" p={0} className={classes.card}>
          <Group className="group" wrap="nowrap" gap={0}>
-            <Avatar src={track.album.images.at(-1).url} radius={0} size={64} />
+            <Avatar
+               className="!hidden xl:!inline-block"
+               src={track?.album?.images?.at(-1)?.url}
+               radius={0}
+               size={64}
+            />
             <div
                className={`${classes.body} flex w-full items-center justify-between`}
             >

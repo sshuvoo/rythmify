@@ -21,26 +21,34 @@ export default async function Home() {
 
    return (
       <div className="max-h-[calc(100vh-32px)] overflow-y-auto pb-32">
-         <div>
-            <h2 className="my-8 text-2xl font-medium">Most Listened Songs</h2>
-            <div className="grid grid-cols-4 gap-4">
-               {topTracks?.items?.map((track: any) => (
-                  <TopTrackCard
-                     playlist={topTracks.items}
-                     track={track}
-                     key={track.id}
-                  />
-               ))}
+         {topTracks?.items?.length > 0 && (
+            <div>
+               <h2 className="my-4 text-2xl font-medium xl:my-8">
+                  Most Listened Songs
+               </h2>
+               <div className="grid grid-cols-2 gap-2 xl:grid-cols-4 xl:gap-4">
+                  {topTracks?.items?.map((track: any) => (
+                     <TopTrackCard
+                        playlist={topTracks.items}
+                        track={track}
+                        key={track.id}
+                     />
+                  ))}
+               </div>
             </div>
-         </div>
-         <div>
-            <h2 className="my-8 text-2xl font-medium">Most Played Artists</h2>
-            <div className="grid grid-cols-4 gap-4">
-               {topArtist?.items?.map((artist: any) => (
-                  <TopArtistCard artist={artist} key={artist.id} />
-               ))}
+         )}
+         {topArtist?.items?.length > 0 && (
+            <div>
+               <h2 className="my-8 text-2xl font-medium">
+                  Most Played Artists
+               </h2>
+               <div className="grid grid-cols-1 gap-2 xl:grid-cols-4 xl:gap-4">
+                  {topArtist?.items?.map((artist: any) => (
+                     <TopArtistCard artist={artist} key={artist.id} />
+                  ))}
+               </div>
             </div>
-         </div>
+         )}
          <div>
             <h2 className="my-8 text-2xl font-medium">New Releases</h2>
             <div>

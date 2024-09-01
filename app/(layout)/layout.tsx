@@ -10,7 +10,7 @@ export default function Layout({ children }: Children) {
    return (
       <div>
          <Header />
-         <div className="grid grid-cols-[auto,1fr] gap-4 p-4">
+         <div className="grid grid-cols-[auto,1fr] xl:gap-4 gap-2 py-2 xl:p-4">
             <Sidebar />
             {children}
          </div>

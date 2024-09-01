@@ -15,7 +15,7 @@ export function PlayAnimationButton({
 
    return controller?.playerState.isPlaying &&
       controller.playerState.playId === track_id ? (
-      <div className="px-[10px]">
+      <div className="px-[10px] py-2 xl:py-0">
          <AudioPlayAnimation
             height="25"
             width="20"
@@ -27,7 +27,7 @@ export function PlayAnimationButton({
          />
       </div>
    ) : (
-      <div className="px-[10px] opacity-0 group-hover:opacity-100">
+      <div className="px-[10px] py-2 xl:py-0 xl:opacity-0 xl:group-hover:opacity-100">
          <TrackPlayButton playlist={playlist} track_id={track_id} />
       </div>
    )

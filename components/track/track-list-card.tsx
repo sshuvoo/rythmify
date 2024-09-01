@@ -3,21 +3,28 @@ import { Image, Tooltip } from '@mantine/core'
 import TrackPlayButton from '../button/track-play-button'
 import { AudioPlayAnimation } from './audio-play-animation'
 import moment from 'moment'
+import TrackActionButton from '../playlist/track-action-button'
 
 export function TrackListCard({
    track,
    playlist,
    index,
    added_at,
+   playlist_id,
+   snapshot_id,
+   isMyPlaylist,
 }: {
    track: any
    playlist: any[]
    index: number
    added_at?: string
+   playlist_id: string
+   snapshot_id: string
+   isMyPlaylist: boolean
 }) {
    return (
-      <tr className="hover:bg-gray-100 rounded-md">
-         <td className="flex gap-4 py-2 my-1 px-4 items-center">
+      <tr className="rounded-md hover:bg-gray-100">
+         <td className="my-1 flex items-center gap-4 px-4 py-2">
             {track?.album?.images[0] ? (
                <Image
                   radius="md"
@@ -41,7 +48,7 @@ export function TrackListCard({
             <AudioPlayAnimation track_id={track.id} />
          </td>
          <td>
-            <h3 className="text-sm line-clamp-1">
+            <h3 className="line-clamp-1 text-sm">
                {track.artists.length > 2
                   ? track.artists
                        .slice(0, 2)
@@ -52,7 +59,7 @@ export function TrackListCard({
          </td>
          {added_at && (
             <td>
-               <h3 className="text-sm line-clamp-1">
+               <h3 className="line-clamp-1 text-sm">
                   {moment(added_at).format('DD-MMM-YYYY')}
                </h3>
             </td>
@@ -62,6 +69,14 @@ export function TrackListCard({
          </td>
          <td>
             <TrackPlayButton playlist={playlist} track_id={track.id} />
+         </td>
+         <td>
+            <TrackActionButton
+               isMyPlaylist={isMyPlaylist}
+               snapshot_id={snapshot_id}
+               playlist_id={playlist_id}
+               track_id={track.id}
+            />
          </td>
       </tr>
    )

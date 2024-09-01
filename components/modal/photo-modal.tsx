@@ -2,7 +2,6 @@
 
 import { uploadPlaylistImage } from '@/actions/upload-playlist-image'
 import { Box, Button, LoadingOverlay } from '@mantine/core'
-import { useDisclosure } from '@mantine/hooks'
 import {
    IconBan,
    IconCircleCheck,
@@ -14,31 +13,6 @@ import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 import toast from 'react-hot-toast'
 
-function fileToBase64(file: File): Promise<string> {
-   return new Promise((resolve, reject) => {
-      const reader = new FileReader()
-
-      reader.onloadend = () => {
-         if (reader.result) {
-            // Check if reader.result is a string
-            const resultString =
-               typeof reader.result === 'string' ? reader.result : ''
-            // Remove the Data URL prefix before returning Base64 data
-            const base64Data = resultString.split(',')[1]
-            resolve(base64Data)
-         } else {
-            reject(new Error('Failed to read file'))
-         }
-      }
-
-      reader.onerror = () => {
-         reject(new Error('Failed to read file'))
-      }
-
-      reader.readAsDataURL(file)
-   })
-}
-
 export default function PhotoModal({
    onClose,
    playlist_id,
@@ -46,38 +20,46 @@ export default function PhotoModal({
    onClose: () => void
    playlist_id: string
 }) {
-   const [visible, { toggle }] = useDisclosure(false)
-   const [preview, setPreview] = useState<any>()
-   const [fileName, setfileName] = useState<string>('')
-   const [isLarge, setIsLarge] = useState(false)
-   const [base64, setBase64] = useState<any>()
+   const [visible, toggle] = useState(false)
+   const [preview, setPreview] = useState<string | null>(null)
+   const [fileName, setFileName] = useState<string>('')
+   const [base64, setBase64] = useState<string | null>(null)
 
-   const onDrop = useCallback((acceptedFiles: File[]) => {
-      const reader = new FileReader()
-      setfileName(acceptedFiles[0].name)
-      reader.readAsDataURL(acceptedFiles[0])
-      reader.onload = (event) => {
-         if (event?.target?.result) {
-            const result =
-               typeof event.target.result === 'string'
-                  ? event.target.result
-                  : ''
-            const base64 = result.split(',')[1]
-            setBase64(base64)
+   const onDrop = useCallback(
+      (acceptedFiles: File[], fileRejections: any[]) => {
+         if (fileRejections.length > 0) {
+            const error = fileRejections[0].errors[0]
+            if (error.code === 'file-too-large') {
+               toast.error('Image is larger than 150KB')
+            }
+            return
          }
-         setPreview(event.target?.result)
-      }
-   }, [])
+
+         const reader = new FileReader()
+         setFileName(acceptedFiles[0].name)
+         reader.readAsDataURL(acceptedFiles[0])
+         reader.onload = (event) => {
+            if (event?.target?.result) {
+               const result =
+                  typeof event.target.result === 'string'
+                     ? event.target.result
+                     : ''
+               const base64 = result.split(',')[1]
+               setBase64(base64)
+            }
+            setPreview(event.target?.result as string)
+         }
+      },
+      []
+   )
 
    function sizeValidator(file: File) {
-      if (file.size > 256 * 1024) {
-         setIsLarge(true)
+      if (file.size > 150 * 1024) {
          return {
-            code: 'image-too-large',
-            message: `Image is larger than 256KB`,
+            code: 'file-too-large',
+            message: `Image is larger than 150KB`,
          }
       }
-      setIsLarge(false)
       return null
    }
 
@@ -87,7 +69,6 @@ export default function PhotoModal({
       isDragActive,
       isDragReject,
       isDragAccept,
-      isFocused,
    } = useDropzone({
       onDrop,
       multiple: false,
@@ -96,24 +77,30 @@ export default function PhotoModal({
          'image/jpeg': ['.jpeg', '.jpg'],
       },
       validator: sizeValidator,
-      maxSize: 256 * 2024,
+      maxSize: 150 * 1024,
    })
 
    const handleUpload = async () => {
-      toggle()
+      toggle((pre) => !pre)
       try {
-         await uploadPlaylistImage(playlist_id, base64)
+         if (base64) {
+            await uploadPlaylistImage(playlist_id, base64)
+         } else {
+            toast.error('No image selected')
+         }
+         toast.success('Cover upload successfully')
+         onClose()
       } catch (error: any) {
-         toast.error(error?.message || 'Something went wrong')
+         toast.error(error?.message || 'Server did not respond')
       } finally {
-         toggle()
+         toggle((pre) => !pre)
       }
    }
 
    return (
       <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-black/40">
          <Box
-            className="w-full max-w-lg rounded-md bg-white p-2 shadow"
+            className="w-full max-w-lg rounded-md bg-white p-4 shadow"
             pos="relative"
          >
             <LoadingOverlay
@@ -130,24 +117,38 @@ export default function PhotoModal({
                <div className="p-2">
                   <div
                      {...getRootProps()}
-                     className={`flex flex-col items-center gap-3 rounded-lg border-2 border-dashed p-4 ${isDragAccept && isDragActive ? 'border-green-500' : isDragReject && isDragActive ? 'border-red-500' : 'border-black/30'}`}
+                     className={`flex flex-col items-center gap-3 rounded-lg border-2 border-dashed p-4 ${
+                        isDragReject && isDragActive
+                           ? 'border-red-500'
+                           : isDragAccept && isDragActive
+                             ? 'border-green-500'
+                             : 'border-black/30'
+                     }`}
                   >
                      {preview ? (
-                        <Image height={150} width={150} src={preview} alt="" />
+                        <Image
+                           height={150}
+                           width={150}
+                           src={preview}
+                           alt="Preview"
+                        />
                      ) : (
                         <>
-                           {isDragAccept && !isLarge && isDragActive ? (
-                              <IconCircleCheck className="size-14 text-green-500" />
-                           ) : isDragReject && isDragActive ? (
-                              <IconBan className="size-14 text-red-500" />
+                           {isDragReject && isDragActive ? (
+                              <IconBan size={56} className="text-red-500" />
+                           ) : isDragAccept && isDragActive ? (
+                              <IconCircleCheck
+                                 size={56}
+                                 className="text-green-500"
+                              />
                            ) : (
-                              <IconUpload className="size-14" />
+                              <IconUpload size={56} />
                            )}
                            <h2>
                               {isDragAccept && isDragActive
                                  ? 'Just drop here'
                                  : isDragReject && isDragActive
-                                   ? 'Only png,jpg,jpeg are allowed'
+                                   ? 'Only png, jpg, jpeg are allowed'
                                    : 'Upload Photo'}
                            </h2>
                            <p>
@@ -155,14 +156,14 @@ export default function PhotoModal({
                                  ? 'Everything looks good'
                                  : fileName
                                    ? fileName
-                                   : 'Maximum image size is 256 KB.'}
+                                   : 'Maximum image size is 150 KB.'}
                            </p>
                         </>
                      )}
                      <input {...getInputProps()} />
                   </div>
-                  <div className="mt-2">
-                     <Button onClick={handleUpload} fullWidth color="#000000">
+                  <div className="mt-4">
+                     <Button onClick={handleUpload} fullWidth color="dark">
                         Upload
                      </Button>
                   </div>

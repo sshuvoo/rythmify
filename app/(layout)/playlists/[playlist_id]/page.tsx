@@ -63,7 +63,10 @@ export default async function Playlist({
                   )}
                </div>
                <div className="flex items-center gap-2">
-                  <SettingsMenu isMyPlaylist={isMyPlaylist} playlist={playlist} />
+                  <SettingsMenu
+                     isMyPlaylist={isMyPlaylist}
+                     playlist={playlist}
+                  />
                   <CreatePlaylistButton />
                </div>
             </div>
@@ -73,6 +76,9 @@ export default async function Playlist({
                   <tbody>
                      {playlist?.tracks?.items?.map((item: any, i: number) => (
                         <TrackListCard
+                           isMyPlaylist={isMyPlaylist}
+                           snapshot_id={playlist.snapshot_id}
+                           playlist_id={playlist_id}
                            index={i}
                            key={item.track.id}
                            track={item.track}

@@ -1,5 +1,5 @@
-import { Image } from '@mantine/core'
 import { IconMusic } from '@tabler/icons-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
@@ -7,15 +7,14 @@ export function SidebarPlaylistCard({ playlist }: { playlist: any }) {
    return (
       <Link
          href={`/playlists/${playlist.id}`}
-         className="flex items-center justify-between gap-4 p-2 hover:bg-gray-100"
+         className="block hover:bg-gray-100 xl:p-2"
       >
-         <div className="grid grid-cols-[auto,1fr] gap-4">
-            <div className="h-[50px] w-[50px]">
+         <div className="xl:grid xl:grid-cols-[auto,1fr] xl:gap-4">
+            <div className="relative h-[40px] w-[40px] xl:h-[50px] xl:w-[50px]">
                {playlist?.images && playlist?.images[0]?.url ? (
                   <Image
-                     radius="md"
-                     h={50}
-                     w={50}
+                     fill
+                     className="rounded-md object-cover"
                      src={playlist?.images[0]?.url}
                      alt={playlist?.name}
                   />
@@ -24,10 +23,10 @@ export function SidebarPlaylistCard({ playlist }: { playlist: any }) {
                )}
             </div>
             <div>
-               <h3 className="line-clamp-1 text-lg font-medium">
+               <h3 className="line-clamp-1 hidden text-lg font-medium xl:block">
                   {playlist?.name}
                </h3>
-               <p className="line-clamp-1 text-sm font-medium">
+               <p className="line-clamp-1 hidden text-sm font-medium xl:block">
                   Tracks: {playlist?.tracks?.total}
                </p>
             </div>

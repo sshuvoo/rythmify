@@ -4,7 +4,6 @@ import { getMyPlaylists } from '@/actions/get-my-playlists'
 import { getSavedAlbums } from '@/actions/get-saved-albums'
 import { IconHomeFilled, IconPlaylist, IconSearch } from '@tabler/icons-react'
 import Link from 'next/link'
-import { Console } from '../console'
 import CreatePlaylistIcon from './create-playlist-icon'
 import { SidebarAlbumCard } from './sidebar-album-card'
 import { SidebarArtistCard } from './sidebar-artist-card'
@@ -17,40 +16,41 @@ export default async function Sidebar() {
    const myPlaylists = await getMyPlaylists()
 
    return (
-      <div className="w-[420px] space-y-4">
-         <Console data={myPlaylists} />
-         <div className="space-y-4 rounded-md border border-gray-200 px-4 py-5">
+      <div className="w-fit space-y-2 xl:w-[420px] xl:space-y-4">
+         <div className="space-y-4 rounded-md border border-gray-200 px-2 py-5 lg:px-4">
             <Link
                className="flex items-center gap-3 text-base font-bold"
                href={'/'}
             >
-               <IconHomeFilled />
-               <span>Home</span>
+               <IconHomeFilled title="Home" />
+               <span className="hidden xl:inline-block">Home</span>
             </Link>
             <Link
                className="flex items-center gap-3 text-base font-bold"
                href={'/search'}
             >
                <IconSearch />
-               <span>Search</span>
+               <span className="hidden xl:inline-block">Search</span>
             </Link>
          </div>
-         <div className="rounded-md border border-gray-200 px-4 py-5">
-            <div className="flex justify-between">
-               <div className="flex items-center gap-3 text-base font-bold">
+         <div className="rounded-md border border-gray-200 px-2 py-5 xl:px-4">
+            <div className="flex flex-col justify-between gap-2 xl:flex-row">
+               <div className="text-base font-bold xl:flex xl:items-center xl:gap-3">
                   <IconPlaylist />
-                  <span>Your Music Library</span>
+                  <span className="hidden xl:inline-block">
+                     Your Music Library
+                  </span>
                </div>
                <div>
                   <CreatePlaylistIcon />
                </div>
             </div>
-            <div className="max-h-[calc(100vh-280px)] overflow-y-auto">
+            <div className="max-h-[calc(100vh-280px)] overflow-y-auto scrollbar-hide xl:scrollbar-default">
                <div>
-                  <div className="my-4 flex items-center gap-3 text-base font-bold">
+                  <div className="hidden text-base font-bold xl:my-4 xl:block">
                      <span>My Playlist</span>
                   </div>
-                  <div>
+                  <div className="space-y-2">
                      {myPlaylists?.items?.map((playlist: any) => (
                         <SidebarPlaylistCard
                            key={playlist.id}
@@ -60,20 +60,20 @@ export default async function Sidebar() {
                   </div>
                </div>
                <div>
-                  <div className="my-4 flex items-center gap-3 text-base font-bold">
+                  <div className="hidden text-base font-bold xl:my-4 xl:block">
                      <span>Followed Artists</span>
                   </div>
-                  <div>
+                  <div className="mt-2 space-y-2">
                      {followedArtists?.artists?.items?.map((item: any) => (
                         <SidebarArtistCard key={item.id} artist={item} />
                      ))}
                   </div>
                </div>
                <div>
-                  <div className="my-4 flex items-center gap-3 text-base font-bold">
+                  <div className="hidden text-base font-bold xl:my-4 xl:block">
                      <span>Saved Albums</span>
                   </div>
-                  <div>
+                  <div className="mt-2 space-y-2">
                      {savedAlbums?.items?.map((item: any) => (
                         <SidebarAlbumCard
                            key={item.album.id}
@@ -83,10 +83,10 @@ export default async function Sidebar() {
                   </div>
                </div>
                <div>
-                  <div className="my-4 flex items-center gap-3 text-base font-bold">
+                  <div className="hidden text-base font-bold xl:my-4 xl:block">
                      <span>Popular</span>
                   </div>
-                  <div>
+                  <div className="mt-2 space-y-2">
                      {popularPlaylists.playlists.items.map((playlist: any) => (
                         <SidebarPlaylistCard
                            key={playlist.id}
