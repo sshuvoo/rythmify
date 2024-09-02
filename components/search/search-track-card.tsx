@@ -1,27 +1,19 @@
 import { msToDuration } from '@/utils/ms-to-duration'
 import { Tooltip } from '@mantine/core'
-import TrackPlayButton from '../button/track-play-button'
-import { AudioPlayAnimation } from './audio-play-animation'
-import moment from 'moment'
-import TrackActionButton from '../playlist/track-action-button'
-import Image from 'next/image'
 import { IconMusic } from '@tabler/icons-react'
+import Image from 'next/image'
+import AddToPlaylistButton from '../artist/add-to-playlist-button'
+import TrackPlayButton from '../button/track-play-button'
+import { AudioPlayAnimation } from '../track/audio-play-animation'
 
-export function TrackListCard({
+export function SearchTrackCard({
    track,
    playlist,
-   added_at,
-   playlist_id,
-   snapshot_id,
-   isMyPlaylist,
+   myPlaylists,
 }: {
    track: any
    playlist: any[]
-   index: number
-   added_at?: string
-   playlist_id: string
-   snapshot_id: string
-   isMyPlaylist: boolean
+   myPlaylists: any[]
 }) {
    return (
       <tr className="rounded-md hover:bg-gray-100">
@@ -62,25 +54,13 @@ export function TrackListCard({
                   : track.artists.map((artist: any) => artist.name).join(' x ')}
             </h3>
          </td>
-         {added_at && (
-            <td className="hidden xl:table-cell">
-               <h3 className="line-clamp-1 text-sm">
-                  {moment(added_at).format('DD-MMM-YYYY')}
-               </h3>
-            </td>
-         )}
          <td className="hidden xl:table-cell">
             <h3 className="text-sm">{msToDuration(track.duration_ms)}</h3>
          </td>
          <td className="pr-1 md:pr-2 xl:pr-4">
             <div className="flex items-center gap-2">
                <TrackPlayButton playlist={playlist} track_id={track.id} />
-               <TrackActionButton
-                  isMyPlaylist={isMyPlaylist}
-                  snapshot_id={snapshot_id}
-                  playlist_id={playlist_id}
-                  track_id={track.id}
-               />
+               <AddToPlaylistButton playlists={myPlaylists} track_id={track.id} />
             </div>
          </td>
       </tr>

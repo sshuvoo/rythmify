@@ -21,18 +21,17 @@ export function Player() {
    const controller = useController()
    return (
       <div className="fixed bottom-0 left-1/2 z-[1000] w-full max-w-3xl -translate-x-1/2 rounded-md border-2 border-black/10 bg-[#f7f7f7cc] p-4 shadow backdrop-blur-md">
-         <div className="grid grid-cols-[1fr,150px] items-center py-2 xl:grid-cols-3">
-            <div className="hidden items-end gap-2 px-4 xl:flex">
+         <div className="grid grid-cols-[auto,1fr,150px] items-center py-2 xl:grid-cols-3">
+            <div className="flex items-end gap-2 px-4">
                <AudioPlayAnimation
                   height="25"
                   width="20"
                   color="#000000"
                   ariaLabel="audio-loading"
-                  wrapperStyle={{}}
                   wrapperClass="wrapper-class"
                   visible={controller?.playerState.isPlaying}
                />
-               <p className="line-clamp-1 text-sm">
+               <p className="line-clamp-1 hidden text-sm lg:block">
                   {controller?.playerState.currentTrack?.name}
                </p>
             </div>

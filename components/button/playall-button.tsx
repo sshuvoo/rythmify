@@ -27,16 +27,16 @@ export default function PlayAll({ playlist }: { playlist: any[] }) {
          playlistId.includes(controller?.playerState?.playId) ? (
             <button
                onClick={controller.handlePlay}
-               className="w-12 h-12 flex justify-center items-center bg-black rounded-full"
+               className="flex h-10 w-10 items-center justify-center rounded-full bg-black xl:h-12 xl:w-12"
             >
-               <IconPlayerPauseFilled className=" rounded-full text-white w-6 h-6" />
+               <IconPlayerPauseFilled className="h-6 w-6 rounded-full text-white" />
             </button>
          ) : (
             <button
                onClick={handlePlay}
-               className="w-12 h-12 flex justify-center items-center bg-black rounded-full"
+               className="flex h-10 w-10 items-center justify-center rounded-full bg-black xl:h-12 xl:w-12"
             >
-               <IconPlayerPlayFilled className=" rounded-full text-white w-6 h-6" />
+               <IconPlayerPlayFilled className="h-6 w-6 rounded-full text-white" />
             </button>
          )}
       </div>

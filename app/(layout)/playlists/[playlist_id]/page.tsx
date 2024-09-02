@@ -5,7 +5,7 @@ import { CreatePlaylistButton } from '@/components/button/create-playlist-button
 import PlayAll from '@/components/button/playall-button'
 import { SettingsMenu } from '@/components/playlist/settings-menu'
 import { TrackListCard } from '@/components/track/track-list-card'
-import { Avatar } from '@mantine/core'
+import Image from 'next/image'
 
 export default async function Playlist({
    params: { playlist_id },
@@ -13,10 +13,9 @@ export default async function Playlist({
    params: { playlist_id: string }
 }) {
    const playlist = await getPlaylist(playlist_id)
-   const palette =
-      playlist?.images &&
-      playlist?.images[0]?.url &&
-      (await getImageColor(playlist?.images[0]?.url))
+   const palette = await getImageColor(
+      playlist?.images && playlist?.images[0]?.url && playlist?.images[0]?.url
+   )
    const tracklist = playlist?.tracks?.items?.map((item: any) => item.track)
    const isMyPlaylist = await checkMyPlaylist(playlist_id)
 
@@ -24,13 +23,14 @@ export default async function Playlist({
       <div className="max-h-[calc(100vh-106px)] overflow-hidden overflow-y-auto pb-32">
          <div
             style={{ backgroundColor: palette?.DarkMuted?.hex || '#000000' }}
-            className="relative grid grid-cols-[auto,1fr] gap-x-8 rounded-md p-10"
+            className="x:gap-x-8 grid grid-cols-[auto,1fr] gap-x-3 rounded-md p-4 xl:p-8"
          >
-            <div className="flex flex-col justify-end">
-               <Avatar
+            <div className="relative size-24 xl:flex xl:size-[200px] xl:flex-col xl:justify-end">
+               <Image
+                  fill
+                  className="object-cover"
                   src={playlist?.images && playlist.images[0]?.url}
-                  size={200}
-                  radius={7}
+                  alt=""
                />
             </div>
             <div
@@ -39,15 +39,13 @@ export default async function Playlist({
                   color: palette?.DarkMuted?.titleTextColor || '#ffffff',
                }}
             >
-               <div className="flex items-center gap-2">
-                  <p>Playlist</p>
-               </div>
-               <h1 className="my-2 line-clamp-1 text-8xl font-extrabold">
+               <p className="text-sm xl:text-base">Playlist</p>
+               <h1 className="my-2 line-clamp-1 text-2xl font-extrabold xl:text-8xl">
                   {playlist.name}
                </h1>
-               <div className="flex items-center gap-4">
-                  <h2>{playlist.description}</h2>
-               </div>
+               <h2 className="line-clamp-1 text-sm xl:text-base">
+                  {playlist.description}
+               </h2>
             </div>
          </div>
          <div>
@@ -56,7 +54,7 @@ export default async function Playlist({
                   {playlist?.tracks?.items?.length > 0 && (
                      <div className="flex items-center gap-4">
                         <PlayAll playlist={tracklist} />
-                        <h2 className="my-4 text-2xl font-semibold">
+                        <h2 className="hidden text-lg font-semibold xl:block xl:text-2xl">
                            Play All Songs
                         </h2>
                      </div>

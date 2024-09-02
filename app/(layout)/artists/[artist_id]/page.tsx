@@ -7,13 +7,10 @@ import { getRecomendTracks } from '@/actions/get-recomend-tracks'
 import { getReletedArtists } from '@/actions/get-related-artists'
 import { getSingleArtist } from '@/actions/get-single-artist'
 import AlbumCarousel from '@/components/album/album-carousel'
-import AddToPlaylistButton from '@/components/artist/add-to-playlist-button'
 import ArtistCarousel from '@/components/artist/artist-carousel'
+import TrackCardLarge from '@/components/artist/track-card-large'
 import { FollowButton } from '@/components/button/follow-button'
 import PlayAll from '@/components/button/playall-button'
-import TrackPlayButton from '@/components/button/track-play-button'
-import { AudioPlayAnimation } from '@/components/track/audio-play-animation'
-import { msToDuration } from '@/utils/ms-to-duration'
 import { IconRosetteDiscountCheckFilled } from '@tabler/icons-react'
 import Image from 'next/image'
 
@@ -26,21 +23,21 @@ export default async function Artist({
    const albums = await getArtistAlbums(artist_id)
    const tracks = await getArtistsTopTracks(artist_id)
    const relatedArtists = await getReletedArtists(artist_id)
-   // const recomend = await getRecomendTracks(artist_id, artist.genres)
+   const recomend = await getRecomendTracks(artist_id, artist.genres)
    const palette = await getImageColor(artist?.images[0]?.url)
    const isFollowed = await checkFollowingArtists(artist_id)
    const myPlaylist = await getMyPlaylists()
-   
+
    return (
       <div className="max-h-[calc(100vh-106px)] overflow-hidden overflow-y-auto pb-32">
          <div
             style={{ backgroundColor: palette?.DarkMuted?.hex }}
-            className="grid grid-cols-[auto,1fr] gap-x-8 rounded-md p-10"
+            className="x:gap-x-8 grid grid-cols-[auto,1fr] gap-x-3 rounded-md p-4 xl:p-8"
          >
-            <div className="relative size-16 xl:flex xl:size-[200px] xl:flex-col xl:justify-end">
+            <div className="relative size-24 xl:flex xl:size-[200px] xl:flex-col xl:justify-end">
                <Image
                   fill
-                  className="object-cover"
+                  className="rounded-full object-cover"
                   src={artist?.images[0]?.url}
                   alt=""
                />
@@ -51,117 +48,58 @@ export default async function Artist({
                   color: palette?.DarkMuted?.titleTextColor || '#ffffff',
                }}
             >
-               <div className="flex items-center gap-2">
+               <div className="flex items-center gap-2 text-sm xl:text-base">
                   <IconRosetteDiscountCheckFilled className="text-[#1dcaff]" />
                   <p>Verified Artist</p>
                </div>
-               <h1 className="my-2 text-8xl font-extrabold">{artist?.name}</h1>
-               <h2>Followers: {artist?.followers?.total}</h2>
+               <h1 className="my-2 line-clamp-1 text-2xl font-extrabold xl:text-8xl">
+                  {artist?.name}
+               </h1>
+               <h2 className="text-sm xl:text-base">
+                  Followers: {artist?.followers?.total}
+               </h2>
             </div>
          </div>
-         <div className="grid grid-cols-2 gap-8">
+         <div className="mt-6 flex items-center gap-4">
+            <div className="flex items-center gap-4">
+               <PlayAll playlist={tracks?.tracks} />
+               <h2 className="text-lg font-semibold xl:text-2xl">
+                  Play All Songs
+               </h2>
+            </div>
+            <FollowButton artist_id={artist_id} isFollowed={isFollowed} />
+         </div>
+         <div className="xl:grid xl:grid-cols-2 xl:gap-8">
             <div>
-               <div className="mt-6 flex items-center gap-4">
-                  <div className="flex items-center gap-4">
-                     <PlayAll playlist={tracks?.tracks} />
-                     <h2 className="text-2xl font-semibold">Play All Songs</h2>
-                  </div>
-                  <FollowButton artist_id={artist_id} isFollowed={isFollowed} />
-               </div>
-               <div>
-                  <h2 className="my-6 text-2xl font-semibold">
-                     Popular From {artist.name.split(' ').at(-1)}
-                  </h2>
-               </div>
-               <div className="space-y-4">
+               <h2 className="my-6 text-xl font-semibold xl:text-2xl">
+                  Popular From {artist.name.split(' ').at(-1)}
+               </h2>
+               <div className="space-y-2 xl:space-y-4">
                   {tracks?.tracks?.length > 0 &&
                      tracks.tracks.map((track: any) => (
-                        <div
+                        <TrackCardLarge
                            key={track.id}
-                           className="flex items-center justify-between gap-4 rounded-md p-2 hover:bg-gray-100"
-                        >
-                           <div className="flex gap-4">
-                              <div className="relative size-[70px]">
-                                 <Image
-                                    className="rounded-md object-cover"
-                                    fill
-                                    src={track?.album?.images[0].url}
-                                    alt=""
-                                 />
-                              </div>
-                              <div>
-                                 <h3 className="text-xl font-medium">
-                                    {track?.name}
-                                 </h3>
-                                 <h3 className="line-clamp-1 text-sm">
-                                    {track.artists
-                                       .map((artist: any) => artist.name)
-                                       .join(' x ')}
-                                 </h3>{' '}
-                                 <h3 className="text-sm">
-                                    {msToDuration(track.duration_ms)}
-                                 </h3>
-                              </div>
-                           </div>
-                           <div className="flex items-center gap-4 px-4">
-                              <AudioPlayAnimation track_id={track.id} />
-                              <TrackPlayButton
-                                 playlist={tracks?.tracks}
-                                 track_id={track.id}
-                              />
-                              <AddToPlaylistButton
-                                 track_id={track.id}
-                                 playlists={myPlaylist?.items || []}
-                              />
-                           </div>
-                        </div>
+                           track={track}
+                           myPlaylist={myPlaylist}
+                           playlist={tracks?.tracks}
+                        />
                      ))}
                </div>
             </div>
             <div>
-               <h2 className="my-8 text-2xl font-semibold">
+               <h2 className="my-6 text-xl font-semibold xl:text-2xl">
                   Recomended Tracks
                </h2>
-               <div className="space-y-4">
-                  {/* {recomend?.tracks?.length > 0 &&
+               <div className="space-y-2 xl:space-y-4">
+                  {recomend?.tracks?.length > 0 &&
                      recomend.tracks.map((track: any) => (
-                        <div
+                        <TrackCardLarge
                            key={track.id}
-                           className="flex items-center justify-between gap-4 p-2 hover:bg-gray-100"
-                        >
-                           <div className="flex gap-4">
-                              <div className="h-[70px] w-[70px]">
-                                 <Image
-                                    radius="md"
-                                    h={70}
-                                    w={70}
-                                    src={track?.album?.images[0].url}
-                                    alt=""
-                                 />
-                              </div>
-                              <div>
-                                 <h3 className="text-xl font-medium">
-                                    {track.name}
-                                 </h3>
-                                 <h3 className="line-clamp-1 text-sm">
-                                    {track.artists
-                                       .map((artist: any) => artist.name)
-                                       .join(' x ')}
-                                 </h3>{' '}
-                                 <h3 className="text-sm">
-                                    {msToDuration(track.duration_ms)}
-                                 </h3>
-                              </div>
-                           </div>
-                           <div className="flex items-center gap-4">
-                              <AudioPlayAnimation track_id={track.id} />
-                              <TrackPlayButton
-                                 playlist={recomend?.tracks}
-                                 track_id={track.id}
-                              />
-                           </div>
-                        </div>
-                     ))} */}
+                           track={track}
+                           myPlaylist={myPlaylist}
+                           playlist={recomend?.tracks}
+                        />
+                     ))}
                </div>
             </div>
          </div>
