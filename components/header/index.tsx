@@ -17,7 +17,7 @@ export async function Header() {
                <span className="text-green-500">rythm</span>
                <span>ify</span>
             </Link>
-            <div className="absolute left-1/2 top-1/2 w-52 -translate-x-1/2 -translate-y-1/2 sm:w-60 md:w-72 lg:w-96 xl:w-[420px] 2xl:w-[500px]">
+            <div className="absolute left-1/2 top-1/2 w-44 -translate-x-1/2 -translate-y-1/2 sm:w-60 md:w-72 lg:w-96 xl:w-[420px] 2xl:w-[500px]">
                <SearchForm />
             </div>
             {session ? (

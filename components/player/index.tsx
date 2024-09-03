@@ -20,9 +20,9 @@ import { Audio as AudioPlayAnimation } from 'react-loader-spinner'
 export function Player() {
    const controller = useController()
    return (
-      <div className="fixed bottom-0 left-1/2 z-[1000] w-full max-w-3xl -translate-x-1/2 rounded-md border-2 border-black/10 bg-[#f7f7f7cc] p-4 shadow backdrop-blur-md">
-         <div className="grid grid-cols-[auto,1fr,150px] items-center py-2 xl:grid-cols-3">
-            <div className="flex items-end gap-2 px-4">
+      <div className="fixed bottom-0 left-1/2 z-[1000] w-full max-w-3xl -translate-x-1/2 rounded-md border-2 border-black/10 bg-[#f7f7f7cc] p-2 px-4 shadow backdrop-blur-md xl:p-4">
+         <div className="grid grid-cols-[auto,1fr,130px] items-center py-2 xl:grid-cols-3">
+            <div className="flex items-end gap-2 xl:px-4">
                <AudioPlayAnimation
                   height="25"
                   width="20"
@@ -35,44 +35,53 @@ export function Player() {
                   {controller?.playerState.currentTrack?.name}
                </p>
             </div>
-            <div className="flex items-center justify-center gap-6">
+            <div className="flex items-center justify-center gap-4 xl:gap-6">
                <button
                   onClick={controller?.handleShuffle}
                   title="Shuffle"
                   disabled={!(controller?.playerState.strategy === 'repeat')}
                   className="relative disabled:opacity-30"
                >
-                  <IconArrowsShuffle />
+                  <IconArrowsShuffle className="h-5 w-5 md:h-6 md:w-6" />
                   {controller?.playerState.isShuffled && (
                      <span className="absolute -right-1 -top-1 inline-block h-2 w-2 rounded-full bg-green-500"></span>
                   )}
                </button>
                <button onClick={controller?.handlePrev} title="Previous">
-                  <IconPlayerSkipBackFilled />
+                  <IconPlayerSkipBackFilled className="h-5 w-5 md:h-6 md:w-6" />
                </button>
                <button
                   onClick={controller?.handlePlay}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-black"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-black md:h-10 md:w-10"
                   title="Play/Pause"
                >
                   {controller?.playerState.isPlaying ? (
-                     <IconPlayerPauseFilled className="text-white" />
+                     <IconPlayerPauseFilled className="h-5 w-5 text-white md:h-6 md:w-6" />
                   ) : (
-                     <IconPlayerPlayFilled className="text-white" />
+                     <IconPlayerPlayFilled className="h-5 w-5 text-white md:h-6 md:w-6" />
                   )}
                </button>
                <button onClick={controller?.handleNext} title="Next">
-                  <IconPlayerSkipForwardFilled />
+                  <IconPlayerSkipForwardFilled className="h-5 w-5 md:h-6 md:w-6" />
                </button>
                <button onClick={controller?.handleRepeat}>
                   {controller?.playerState.strategy === 'repeat-once' && (
-                     <IconRepeatOnce title="Repeat the current song only" />
+                     <IconRepeatOnce
+                        className="h-5 w-5 md:h-6 md:w-6"
+                        title="Repeat the current song only"
+                     />
                   )}
                   {controller?.playerState.strategy === 'no-repeat' && (
-                     <IconRepeatOff title="No repeat" />
+                     <IconRepeatOff
+                        className="h-5 w-5 md:h-6 md:w-6"
+                        title="No repeat"
+                     />
                   )}
                   {controller?.playerState.strategy === 'repeat' && (
-                     <IconRepeat title="Repeat through list" />
+                     <IconRepeat
+                        className="h-5 w-5 md:h-6 md:w-6"
+                        title="Repeat through list"
+                     />
                   )}
                </button>
             </div>
@@ -81,13 +90,19 @@ export function Player() {
                   <button
                      onClick={() => controller?.playerState.adjustVolume(0)}
                   >
-                     <IconVolume title="Volume" />
+                     <IconVolume
+                        className="h-5 w-5 md:h-6 md:w-6"
+                        title="Volume"
+                     />
                   </button>
                ) : (
                   <button
                      onClick={() => controller?.playerState.adjustVolume(0.3)}
                   >
-                     <IconVolumeOff title="Volume Off" />
+                     <IconVolumeOff
+                        className="h-5 w-5 md:h-6 md:w-6"
+                        title="Volume Off"
+                     />
                   </button>
                )}
                <Slider

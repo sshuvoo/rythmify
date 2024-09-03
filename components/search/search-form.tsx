@@ -31,6 +31,16 @@ export default function SearchForm() {
    return (
       <form>
          <Input
+            hiddenFrom="sm"
+            value={query}
+            onChange={handleChange}
+            leftSection={<IconSearch size={20} />}
+            size="md"
+            radius="xl"
+            placeholder="What do you want to play?"
+         />
+         <Input
+            visibleFrom="lg"
             value={query}
             onChange={handleChange}
             leftSection={<IconSearch size={20} />}
