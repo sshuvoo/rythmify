@@ -32,20 +32,26 @@ export default function AddToPlaylistButton({
 
          <Menu.Dropdown>
             <Menu.Label>Add to your playlist</Menu.Label>
-            {playlists.map((playlist) => (
-               <Menu.Item
-                  onClick={() => handleAddToPlaylist(playlist.id)}
-                  key={playlist.id}
-                  leftSection={
-                     <IconMusic style={{ width: rem(18), height: rem(18) }} />
-                  }
-                  rightSection={
-                     <IconPlus style={{ width: rem(18), height: rem(18) }} />
-                  }
-               >
-                  {playlist.name}
-               </Menu.Item>
-            ))}
+            {playlists.length > 0 ? (
+               playlists.map((playlist) => (
+                  <Menu.Item
+                     onClick={() => handleAddToPlaylist(playlist.id)}
+                     key={playlist.id}
+                     leftSection={
+                        <IconMusic
+                           style={{ width: rem(18), height: rem(18) }}
+                        />
+                     }
+                     rightSection={
+                        <IconPlus style={{ width: rem(18), height: rem(18) }} />
+                     }
+                  >
+                     {playlist.name}
+                  </Menu.Item>
+               ))
+            ) : (
+               <Menu.Item>No Playlist Found!</Menu.Item>
+            )}
          </Menu.Dropdown>
       </Menu>
    )
