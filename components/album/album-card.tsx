@@ -10,10 +10,7 @@ import {
    Text,
    useMantineTheme,
 } from '@mantine/core'
-import {
-   IconHeart,
-   IconHeartFilled
-} from '@tabler/icons-react'
+import { IconHeart, IconHeartFilled } from '@tabler/icons-react'
 import Link from 'next/link'
 import classes from './album-card.module.css'
 
@@ -44,12 +41,6 @@ export function AlbumCard({ album }: { album: any }) {
             <Group gap={8} mr={0}>
                <ActionIcon className={classes.action}>
                   <IconHeart
-                     style={{ width: rem(16), height: rem(16) }}
-                     color={theme.colors.red[6]}
-                  />
-               </ActionIcon>
-               <ActionIcon className={classes.action}>
-                  <IconHeartFilled
                      style={{ width: rem(16), height: rem(16) }}
                      color={theme.colors.red[6]}
                   />
