@@ -13,7 +13,7 @@ export function SearchTrackCard({
 }: {
    track: any
    playlist: any[]
-   myPlaylists: any[]
+   myPlaylists: any
 }) {
    return (
       <tr className="rounded-md hover:bg-gray-100">
@@ -60,7 +60,10 @@ export function SearchTrackCard({
          <td className="pr-1 md:pr-2 xl:pr-4">
             <div className="flex items-center gap-2">
                <TrackPlayButton playlist={playlist} track_id={track.id} />
-               <AddToPlaylistButton playlists={myPlaylists} track_id={track.id} />
+               <AddToPlaylistButton
+                  playlists={myPlaylists?.items || []}
+                  track_id={track.id}
+               />
             </div>
          </td>
       </tr>

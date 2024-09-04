@@ -1,23 +1,39 @@
-"use client";
+'use client'
 
-import { Carousel } from "@mantine/carousel";
-import { AlbumCard } from "./album-card";
+import { Navigation } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { AlbumCard } from './album-card'
 
 export default function AlbumCarousel({ albums }: { albums: any[] }) {
    return (
-      <Carousel
-         slideGap="md"
-         loop
-         dragFree
-         align="start"
-         slidesToScroll={1}
-         slideSize={{ base: "100%", sm: "50%", md: "33.333333%", xl: "20%" }}
+      <Swiper
+         spaceBetween={10}
+         slidesPerView={1}
+         navigation={true}
+         modules={[Navigation]}
+         breakpoints={{
+            640: {
+               slidesPerView: 2,
+            },
+            768: {
+               slidesPerView: 3,
+            },
+            1024: {
+               slidesPerView: 3,
+            },
+            1280: {
+               slidesPerView: 4,
+            },
+            1536: {
+               slidesPerView: 5,
+            },
+         }}
       >
          {albums.map((album: any) => (
-            <Carousel.Slide key={album.id}>
+            <SwiperSlide key={album.id}>
                <AlbumCard album={album} />
-            </Carousel.Slide>
+            </SwiperSlide>
          ))}
-      </Carousel>
-   );
+      </Swiper>
+   )
 }

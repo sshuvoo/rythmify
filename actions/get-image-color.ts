@@ -2,7 +2,8 @@
 
 import Vibrant from 'node-vibrant'
 
-export const getImageColor = async (url: string) => {
+export const getImageColor = async (url?: string) => {
+   if (!url) return null
    try {
       const v = new Vibrant(url)
       const palette = await v.getPalette()

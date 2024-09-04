@@ -27,7 +27,7 @@ export function TrackListCard({
       <tr className="rounded-md hover:bg-gray-100">
          <td className="grid grid-cols-[auto,1fr] gap-2 py-4 pl-1 md:pl-2 xl:gap-4 xl:pl-4">
             <div className="relative size-10">
-               {track?.album?.images && track?.album?.images[0].url ? (
+               {track?.album?.images && track?.album?.images[0]?.url ? (
                   <Image
                      fill
                      className="rounded object-cover"

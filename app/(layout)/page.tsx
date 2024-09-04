@@ -13,7 +13,7 @@ export default async function Home() {
    const albums = await getNewReleases()
    const topArtist = await getTopItems('artists', 10)
    const topTracks = await getTopItems('tracks', 4)
-   
+
    return (
       <div className="max-h-[calc(100vh-32px)] overflow-y-auto pb-32">
          {topTracks?.items?.length > 0 && (

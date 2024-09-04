@@ -16,28 +16,28 @@ export default async function Sidebar() {
    const myPlaylists = await getMyPlaylists()
 
    return (
-      <div className="w-fit space-y-2 xl:w-[420px] xl:space-y-4">
+      <div className="w-fit space-y-2 lg:w-[300px] xl:w-[350px] xl:space-y-4 2xl:w-[420px]">
          <div className="space-y-4 rounded-md border border-gray-200 px-2 py-5 lg:px-4">
             <Link
                className="flex items-center gap-3 text-base font-bold"
                href={'/'}
             >
                <IconHomeFilled title="Home" />
-               <span className="hidden xl:inline-block">Home</span>
+               <span className="hidden lg:inline-block">Home</span>
             </Link>
             <Link
                className="flex items-center gap-3 text-base font-bold"
                href={'/search'}
             >
                <IconSearch />
-               <span className="hidden xl:inline-block">Search</span>
+               <span className="hidden lg:inline-block">Search</span>
             </Link>
          </div>
-         <div className="rounded-md border border-gray-200 px-2 py-5 xl:px-4">
-            <div className="flex flex-col justify-between gap-2 xl:flex-row">
-               <div className="text-base font-bold xl:flex xl:items-center xl:gap-3">
+         <div className="rounded-md border border-gray-200 px-2 py-5 lg:px-4">
+            <div className="flex flex-col justify-between gap-2 lg:flex-row">
+               <div className="text-base font-bold lg:flex lg:items-center lg:gap-3">
                   <IconPlaylist />
-                  <span className="hidden xl:inline-block">
+                  <span className="hidden lg:inline-block">
                      Your Music Library
                   </span>
                </div>
@@ -45,56 +45,66 @@ export default async function Sidebar() {
                   <CreatePlaylistIcon />
                </div>
             </div>
-            <div className="max-h-[calc(100vh-280px)] overflow-y-auto scrollbar-hide xl:scrollbar-default">
-               <div>
-                  <div className="hidden text-base font-bold xl:my-4 xl:block">
-                     <span>My Playlist</span>
+            <div className="max-h-[calc(100vh-280px)] overflow-y-auto scrollbar-hide lg:scrollbar-default">
+               {myPlaylists?.items?.length > 0 && (
+                  <div>
+                     <div className="hidden text-base font-bold lg:my-4 lg:block">
+                        <span>My Playlist</span>
+                     </div>
+                     <div className="space-y-2">
+                        {myPlaylists?.items?.map((playlist: any) => (
+                           <SidebarPlaylistCard
+                              key={playlist.id}
+                              playlist={playlist}
+                           />
+                        ))}
+                     </div>
                   </div>
-                  <div className="space-y-2">
-                     {myPlaylists?.items?.map((playlist: any) => (
-                        <SidebarPlaylistCard
-                           key={playlist.id}
-                           playlist={playlist}
-                        />
-                     ))}
+               )}
+               {followedArtists?.artists?.items?.length > 0 && (
+                  <div>
+                     <div className="hidden text-base font-bold lg:my-4 lg:block">
+                        <span>Followed Artists</span>
+                     </div>
+                     <div className="mt-2 space-y-2">
+                        {followedArtists?.artists?.items?.map((item: any) => (
+                           <SidebarArtistCard key={item.id} artist={item} />
+                        ))}
+                     </div>
                   </div>
-               </div>
-               <div>
-                  <div className="hidden text-base font-bold xl:my-4 xl:block">
-                     <span>Followed Artists</span>
+               )}
+               {savedAlbums?.items?.length > 0 && (
+                  <div>
+                     <div className="hidden text-base font-bold lg:my-4 lg:block">
+                        <span>Saved Albums</span>
+                     </div>
+                     <div className="mt-2 space-y-2">
+                        {savedAlbums?.items?.map((item: any) => (
+                           <SidebarAlbumCard
+                              key={item.album.id}
+                              album={item.album}
+                           />
+                        ))}
+                     </div>
                   </div>
-                  <div className="mt-2 space-y-2">
-                     {followedArtists?.artists?.items?.map((item: any) => (
-                        <SidebarArtistCard key={item.id} artist={item} />
-                     ))}
+               )}
+               {popularPlaylists.playlists.items.length > 0 && (
+                  <div>
+                     <div className="hidden text-base font-bold lg:my-4 lg:block">
+                        <span>Popular</span>
+                     </div>
+                     <div className="mt-2 space-y-2">
+                        {popularPlaylists.playlists.items.map(
+                           (playlist: any) => (
+                              <SidebarPlaylistCard
+                                 key={playlist.id}
+                                 playlist={playlist}
+                              />
+                           )
+                        )}
+                     </div>
                   </div>
-               </div>
-               <div>
-                  <div className="hidden text-base font-bold xl:my-4 xl:block">
-                     <span>Saved Albums</span>
-                  </div>
-                  <div className="mt-2 space-y-2">
-                     {savedAlbums?.items?.map((item: any) => (
-                        <SidebarAlbumCard
-                           key={item.album.id}
-                           album={item.album}
-                        />
-                     ))}
-                  </div>
-               </div>
-               <div>
-                  <div className="hidden text-base font-bold xl:my-4 xl:block">
-                     <span>Popular</span>
-                  </div>
-                  <div className="mt-2 space-y-2">
-                     {popularPlaylists.playlists.items.map((playlist: any) => (
-                        <SidebarPlaylistCard
-                           key={playlist.id}
-                           playlist={playlist}
-                        />
-                     ))}
-                  </div>
-               </div>
+               )}
             </div>
          </div>
       </div>

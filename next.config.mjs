@@ -22,6 +22,14 @@ const nextConfig = {
             protocol: 'https',
             hostname: 'image-cdn-fa.spotifycdn.com',
          },
+         {
+            protocol: 'https',
+            hostname: 'i2o.scdn.co',
+         },
+         {
+            protocol: 'https',
+            hostname: 'platform-lookaside.fbsbx.com',
+         },
       ],
    },
 }

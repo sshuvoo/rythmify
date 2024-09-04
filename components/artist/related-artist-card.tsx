@@ -1,34 +1,32 @@
 import { printFollowers } from '@/utils/printFollowers'
-import { Avatar, Group, Paper, Text } from '@mantine/core'
+import { Text } from '@mantine/core'
+import { IconUserCircle } from '@tabler/icons-react'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export function RelatedArtistCard({ artist }: { artist: any }) {
    return (
-      <Link href={`/artists/${artist.id}`}>
-         <Paper radius="md" withBorder p="lg" bg="var(--mantine-color-body)">
-            <Avatar
-               src={artist?.images[0]?.url}
-               size={120}
-               radius={120}
-               mx="auto"
-            />
-            <Text lineClamp={1} ta="center" fz="lg" fw={500} mt="md">
+      <Link className="bg-white hover:bg-[#f6f6f6]" href={`/artists/${artist.id}`}>
+         <div className="rounded-md bg-inherit p-4">
+            <div className="relative m-auto size-36 bg-inherit xl:size-[200px]">
+               {artist?.images && artist?.images[0] ? (
+                  <Image
+                     className="rounded-full object-cover"
+                     alt=""
+                     fill
+                     src={artist?.images[0]?.url}
+                  />
+               ) : (
+                  <IconUserCircle className="h-full w-full" stroke={1} />
+               )}
+            </div>
+            <Text lineClamp={1} fz="md" fw={500} mt="md">
                {artist.name}
             </Text>
-            <Text ta="center" c="dimmed" fz="sm" lineClamp={1}>
-               {artist.genres.join(' . ') || 'Singer'}
+            <Text c="dimmed" fz="sm" lineClamp={1}>
+               {printFollowers(artist?.followers?.total)} Followers
             </Text>
-            <Group mt="md" justify="center" gap={30}>
-               <div className='flex items-center gap-2'>
-                  <Text ta="center" fz="lg" fw={500}>
-                     {printFollowers(artist?.followers?.total)}
-                  </Text>
-                  <Text ta="center" fz="sm" c="dimmed" lh={1}>
-                     Followers
-                  </Text>
-               </div>
-            </Group>
-         </Paper>
+         </div>
       </Link>
    )
 }

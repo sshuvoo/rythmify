@@ -20,7 +20,6 @@ export default function AddToPlaylistButton({
          toast.error('Oops! Failed to add')
       }
    }
-
    return (
       <Menu shadow="md" width={200}>
          <Menu.Target>

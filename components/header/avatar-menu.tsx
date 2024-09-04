@@ -1,25 +1,12 @@
 'use client'
 
-import {
-   Avatar,
-   Group,
-   Menu,
-   rem,
-   UnstyledButton,
-   useMantineTheme,
-} from '@mantine/core'
-import {
-   IconHeart,
-   IconLogout,
-   IconMail,
-   IconSettings,
-   IconStar,
-} from '@tabler/icons-react'
+import { logout } from '@/actions/logout'
+import { Avatar, Group, Menu, rem, UnstyledButton } from '@mantine/core'
+import { IconLogout, IconMail, IconUserCircle } from '@tabler/icons-react'
 import cx from 'clsx'
 import { useState } from 'react'
-
-import { logout } from '@/actions/logout'
 import classes from './avatar-menu.module.css'
+import Link from 'next/link'
 
 type User = {
    name: string
@@ -28,7 +15,6 @@ type User = {
 }
 
 export function AvatarMenu({ email, image, name }: User) {
-   const theme = useMantineTheme()
    const [userMenuOpened, setUserMenuOpened] = useState(false)
 
    return (
@@ -66,41 +52,19 @@ export function AvatarMenu({ email, image, name }: User) {
             >
                {email}
             </Menu.Item>
-            <Menu.Label>Activity</Menu.Label>
-            <Menu.Item
-               leftSection={
-                  <IconHeart
-                     style={{ width: rem(16), height: rem(16) }}
-                     color={theme.colors.red[6]}
-                     stroke={1.5}
-                  />
-               }
-            >
-               Liked posts
-            </Menu.Item>
-            <Menu.Item
-               leftSection={
-                  <IconStar
-                     style={{ width: rem(16), height: rem(16) }}
-                     color={theme.colors.yellow[6]}
-                     stroke={1.5}
-                  />
-               }
-            >
-               Saved posts
-            </Menu.Item>
-
             <Menu.Label>Settings</Menu.Label>
-            <Menu.Item
-               leftSection={
-                  <IconSettings
-                     style={{ width: rem(16), height: rem(16) }}
-                     stroke={1.5}
-                  />
-               }
-            >
-               Account settings
-            </Menu.Item>
+            <Link className="h-full w-full" href="/profile">
+               <Menu.Item
+                  leftSection={
+                     <IconUserCircle
+                        style={{ width: rem(16), height: rem(16) }}
+                        stroke={1}
+                     />
+                  }
+               >
+                  Profile
+               </Menu.Item>
+            </Link>
             <form action={logout}>
                <Menu.Item
                   type="submit"

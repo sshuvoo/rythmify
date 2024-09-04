@@ -24,6 +24,7 @@
     "react-dropzone": "^14.2.3",
     "react-hot-toast": "^2.4.1",
     "react-loader-spinner": "^6.1.6",
+    "swiper": "^11.1.12",
     "tailwind-scrollbar-hide": "^1.1.7"
   },
   "devDependencies": {

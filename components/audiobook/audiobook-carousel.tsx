@@ -1,23 +1,43 @@
-"use client";
+'use client'
 
-import { Carousel } from "@mantine/carousel";
-import { AudiobookCard } from "./audiobook-card";
+import { Navigation } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { AudiobookCard } from './audiobook-card'
 
-export default function AudiobookCarousel({ audiobooks }: { audiobooks: any[] }) {
+export default function AudiobookCarousel({
+   audiobooks,
+}: {
+   audiobooks: any[]
+}) {
    return (
-      <Carousel
-         slideGap="md"
-         loop
-         dragFree
-         align="start"
-         slidesToScroll={1}
-         slideSize={{ base: "100%", sm: "50%", md: "33.333333%", xl: "10%" }}
+      <Swiper
+         spaceBetween={10}
+         slidesPerView={2}
+         navigation={true}
+         modules={[Navigation]}
+         breakpoints={{
+            640: {
+               slidesPerView: 3,
+            },
+            768: {
+               slidesPerView: 3,
+            },
+            1024: {
+               slidesPerView: 4,
+            },
+            1280: {
+               slidesPerView: 4,
+            },
+            1536: {
+               slidesPerView: 5,
+            },
+         }}
       >
          {audiobooks.map((audiobook: any) => (
-            <Carousel.Slide key={audiobook.id}>
+            <SwiperSlide key={audiobook.id}>
                <AudiobookCard audiobook={audiobook} />
-            </Carousel.Slide>
+            </SwiperSlide>
          ))}
-      </Carousel>
-   );
+      </Swiper>
+   )
 }

@@ -1,19 +1,22 @@
 'use client'
 
+import { Navigation } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
-import { RelatedArtistCard } from './related-artist-card'
+import { PlaylistCard } from './playlist-card'
 
-export default function ArtistCarousel({ artists }: { artists: any[] }) {
+export function PlaylistCarousel({ playlists }: { playlists: any[] }) {
    return (
       <Swiper
          spaceBetween={10}
          slidesPerView={2}
+         navigation={true}
+         modules={[Navigation]}
          breakpoints={{
             640: {
                slidesPerView: 3,
             },
             768: {
-               slidesPerView: 4,
+               slidesPerView: 3,
             },
             1024: {
                slidesPerView: 4,
@@ -26,9 +29,9 @@ export default function ArtistCarousel({ artists }: { artists: any[] }) {
             },
          }}
       >
-         {artists.map((artist: any) => (
-            <SwiperSlide key={artist.id}>
-               <RelatedArtistCard artist={artist} />
+         {playlists.map((playlist: any) => (
+            <SwiperSlide key={playlist.id}>
+               <PlaylistCard playlist={playlist} />
             </SwiperSlide>
          ))}
       </Swiper>

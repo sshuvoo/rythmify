@@ -10,9 +10,12 @@ import {
    Text,
    useMantineTheme,
 } from '@mantine/core'
-import { IconBookmark, IconHeart, IconShare } from '@tabler/icons-react'
-import classes from './album-card.module.css'
+import {
+   IconHeart,
+   IconHeartFilled
+} from '@tabler/icons-react'
 import Link from 'next/link'
+import classes from './album-card.module.css'
 
 export function AlbumCard({ album }: { album: any }) {
    const theme = useMantineTheme()
@@ -25,7 +28,7 @@ export function AlbumCard({ album }: { album: any }) {
             </Link>
          </Card.Section>
 
-         <h2 className={`line-clamp-1 mt-3`}>{album.name}</h2>
+         <h2 className={`mt-3 line-clamp-1`}>{album.name}</h2>
 
          <Text fz="sm" c="dimmed" lineClamp={4}>
             Release Date: {album.release_date}
@@ -46,15 +49,9 @@ export function AlbumCard({ album }: { album: any }) {
                   />
                </ActionIcon>
                <ActionIcon className={classes.action}>
-                  <IconBookmark
+                  <IconHeartFilled
                      style={{ width: rem(16), height: rem(16) }}
-                     color={theme.colors.yellow[7]}
-                  />
-               </ActionIcon>
-               <ActionIcon className={classes.action}>
-                  <IconShare
-                     style={{ width: rem(16), height: rem(16) }}
-                     color={theme.colors.blue[6]}
+                     color={theme.colors.red[6]}
                   />
                </ActionIcon>
             </Group>
