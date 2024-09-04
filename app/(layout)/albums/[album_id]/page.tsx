@@ -79,7 +79,7 @@ export default async function Album({
                            key={track.id}
                            track={track}
                            playlist={album?.tracks?.items}
-                           myPlaylists={myPlaylists || []}
+                           myPlaylists={myPlaylists?.items || []}
                         />
                      ))}
                   </tbody>
